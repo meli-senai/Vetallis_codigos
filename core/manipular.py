@@ -11,7 +11,7 @@ class Manipular:
         return None
 
     def validar_caracter(dados, field_name):
-        special= ["!", "@", "#", "$","%", "&", "*",]
+        special= ["!", "@", "#", "$","%", "&", "*", "-", "+", "=", "¨", "/", ";" "?", "°", "()", "§", "£", "¢", "¬", "^" "`", "|", "_"]
         try:
             for caractere in dados:
                 if caractere in special:
@@ -88,41 +88,37 @@ class Manipular:
     def validar_data(dados, field_name):
         meses = ['01', '02', '03', '04', '05', '06',
             '07', '08', '09', '10', '11', '12',]
-        if field_name == "data":
-            print("data", dados["data"])
-            if len(dados) == 10:
-                for data in dados:
-                    if not(data.isdigit() or data == "/"):
-                        return f"O campo {field_name} está escrito de forma incorreta"
-                        break
-                    else:
-                        data_correta = True
-                if data_correta == True:
-                    if int(dados[6:]) >= 2025:
-                        if dados[3:5] in meses:
-                            if dados[3:5] in ['01', '03', '05', '07', '08', '10', '12']:
-                                if 0 < int(dados[0:2]) <= 31:
-                                    return True
-                                else:
-                                    return f"O campo {field_name} está incorreto"
-                            elif dados[3:5] in ['04', '06', '09', '11']:
-                                if 0 < int(dados[0:2]) <= 30:
-                                    return True
-                                else:
-                                    return False
-                            else:
-                                if int(dados[0:2]) == 28:
-                                    return True
-                                else:
-                                    return False
-                        else:
-                            return f"A {field_name} está com o mês incorreto"
-                    else:
-                        return f"A {field_name} está com o ano incorreto"
+        if len(dados) == 10:
+            for data in dados:
+                if not(data.isdigit() or data == "/"):
+                    return f"O campo {field_name} está escrito de forma incorreta"
+                    break
                 else:
-                    return f"A {field_name} está com a data incorreta"
+                    data_correta = True
+            if data_correta == True:
+                if int(dados[6:]) >= 2025:
+                    if dados[3:5] in meses:
+                        if dados[3:5] in ['01', '03', '05', '07', '08', '10', '12']:
+                            if 0 < int(dados[0:2]) <= 31:
+                                return None
+                            else:
+                                return f"O campo {field_name} está incorreto"
+                        elif dados[3:5] in ['04', '06', '09', '11']:
+                            if 0 < int(dados[0:2]) <= 30:
+                                return None
+                            else:
+                                return False
+                        else:
+                            if int(dados[0:2]) == 28:
+                                return None
+                            else:
+                                return False
+                    else:
+                        return f"A {field_name} está com o mês incorreto"
+                else:
+                    return f"A {field_name} está com o ano incorreto"
             else:
-                return f"O {field_name} não está de acordo com essa validação"
+                return f"A {field_name} está com a data incorreta"
         else:
-            return ("erro no nome")
+            return f"O {field_name} não está de acordo com essa validação"
         return False

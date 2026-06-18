@@ -6,7 +6,7 @@ class Crud_base:
     pk = "id"
 
     @classmethod
-    def buscar_tudo(cls, order_by="id"):
+    def buscar_tudo(cls, order_by):
         conexao = Database.connect()
         cursor = conexao.cursor(dictionary=True)
 
@@ -46,9 +46,7 @@ class Crud_base:
         try:
             campos = ", ".join([f"{campo} = %s" for campo in self.fields])
             valores = tuple(getattr(self, campo) for campo in self.fields) + (id,)
-            sql = f"UPDATE {self.tabela} SET {campos} WHERE {self.pk} = %s"
-            print(f"SQL: {sql}")        # ← adicione isso
-            print(f"PK: {self.pk}")   
+            sql = f"UPDATE {self.tabela} SET {campos} WHERE {self.pk} = %s"  
             cursor.execute(sql, valores)
             conexao.commit()
             return cursor.rowcount
@@ -102,3 +100,43 @@ class Crud_base:
         finally:
             cursor.close()
             conexao.close()
+
+    @classmethod
+    def buscar_email(cls, email):
+        conexao = Database.connect()
+        cursor = conexao.cursor(dictionary=True)
+
+        try:
+            sql = "SELECT * FROM usuario WHERE usuario_email = %s "
+            cursor.execute(sql, (email,))
+            resultados = cursor.fetchall()
+            if resultados:
+                return False
+            else: 
+                return None
+        finally:
+            cursor.close()
+            conexao.close()
+
+    @classmethod
+    def buscar_pesquisa(cls, nome):
+        conexao = Database.connect()
+        cursor = conexao.cursor(dictionary=True)
+
+        try:
+            sql = f"SELECT * FROM produto WHERE produto_nome LIKE %s"
+
+            cursor.execute(sql, (f"%dipirona%",))
+
+            resultados = cursor.fetchall()
+            
+
+            if resultados:
+                return resultados
+            else:
+                return None        
+        finally:
+            cursor.close()
+            conexao.close()
+
+

@@ -1,5 +1,6 @@
 from core.crud_base import Crud_base
 from core.manipular import Manipular
+from core.conectar import Database
 
 class Usuario(Crud_base):
     tabela = "usuario"
@@ -15,7 +16,7 @@ class Usuario(Crud_base):
         self.usuario_cargo = usuario_cargo
         self.usuario_confirmar_senha = usuario_confirmar_senha
 
-    def validar(self, secret_key):
+    def validar_usuario(self, secret_key):
         erros = [
             Manipular.validar_vazio(self.usuario_senha, "senha"),
             Manipular.validar_vazio(self.usuario_nome, "nome"),
@@ -25,6 +26,7 @@ class Usuario(Crud_base):
             Manipular.validar_vazio(self.usuario_confirmar_senha, "confirmar_senha"),
             Manipular.validar_cpf(self.usuario_cpf, "cpf", secret_key),
             Manipular.validar_email(self.usuario_email, "email", secret_key),
+            Manipular.validar_caracter(self.usuario_senha, "senha"),
             Manipular.comparar_criacao_senha(self.usuario_senha, self.usuario_confirmar_senha)
         ]
 
@@ -64,9 +66,71 @@ class Usuario(Crud_base):
         if not usuario:
             raise ValueError("Usuario não encontrado.")
 
-        usuario.pop("usuario_id", None)
-        return Usuario(**usuario)
+
+        return usuario
+
+    def buscar_email_existe(self):
+        usuario = self.buscar_email(self.usuario_email)
+
+        if usuario:
+            raise ValueError("Esse email já foi cadastrado")
+
+        return None
+    
+    @classmethod
+    def buscar_usuario(cls):
+        usuario = cls.buscar_tudo()
+
+        if not usuario:
+            raise ValueError("Usuario não encontrato")
+        
+        return usuario
+
+    @classmethod
+    def inserir_usuario_adm(cls, dados):
+        usuario = cls(
+                usuario_senha=dados.get("usuario_senha"),
+                usuario_nome=dados.get("usuario_nome"),
+                usuario_email=dados.get("usuario_email"),
+                usuario_cpf=dados.get("usuario_cpf", "00000000000"), 
+                usuario_cargo=dados.get("usuario_cargo", "admin"),   
+                usuario_confirmar_senha=dados.get("usuario_confirmar_senha")
+            )
+
+        inserir = cls.gravar(usuario)
+
+
+
+        if not inserir:
+            print("Usuario não cadastrado")
+            raise ValueError("Usuario não cadastrado")
+            
+
+        return inserir
+    
+    @classmethod
+    def has_related_records(cls, id):
+        conexao = Database.connect()
+        cursor = conexao.cursor()
+        try:
+            queries = [
+                "SELECT COUNT(*) FROM produto WHERE usuario_usuario_id = %s",
+            ]
+            total = 0
+            for sql in queries:
+                cursor.execute(sql, (id,))
+                total += cursor.fetchone()[0]
+            return total > 0
+        finally:
+            cursor.close()
+            conexao.close()
 
     
-
-
+    @classmethod
+    def safe_delete(cls, id):
+        usuario = cls.buscar_por_id(id)
+        if not usuario:
+            raise ValueError("Usuario não encontrado.")
+        if cls.has_related_records(id):
+            raise ValueError("Não é possível excluir o usuario porque ele possui pedidos ou movimentações vinculadas.")
+        cls.deletar(id)

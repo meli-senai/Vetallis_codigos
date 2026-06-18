@@ -1,34 +1,64 @@
 from core.crud_base import Crud_base
 from core.manipular import Manipular
 from core.conectar import Database
+import base64
 
 class Produto(Crud_base):
     tabela = "produto"
     pk = "produto_id"
-    fields = ["produto_nome", "produto_descricao", "produto_categoria", "usuario_usuario_id"]
+    fields = ["produto_nome", "produto_descricao", "produto_categoria", "usuario_usuario_id", "produto_imagem", "imagem_tipo", "imagem_blob"]
+    fields_estoque = ["estoque_quantidade", "estoque_observacao", "produto_produto_id", "produto_usuario_usuario_id"]
 
-    def __init__(self, produto_nome, produto_descricao, produto_categoria, usuario_usuario_id):
+    def __init__(self, produto_nome, produto_descricao, produto_categoria, usuario_usuario_id=None, produto_imagem=None, imagem_tipo=None, imagem_blob=None, **kwargs):
         self.produto_nome = produto_nome
         self.produto_descricao = produto_descricao
         self.produto_categoria = produto_categoria
         self.usuario_usuario_id = usuario_usuario_id
+        self.produto_imagem = produto_imagem
+        self.imagem_tipo = imagem_tipo
+        self.imagem_blob = imagem_blob
 
-    def validar(self):
+    def validar_produto(self):
         erros = [
             Manipular.validar_vazio(self.produto_nome, "nome"),
-            #Manipular.validar_caracter(self.produto_nome, "nome"),
             Manipular.validar_vazio(self.produto_categoria, "categoria")
         ]
 
         return [ erro for erro in erros if erro]
     
-    def gravar_produto(self):
-        produto = self.gravar()
+    def gravar_produto(self, estoque_quantidade=0, estoque_observacao=None):
+        produto_id = self.gravar()
 
-        if not produto:
+        if not produto_id:
             raise ValueError("Erro ao cadastrar produto.")
         
-        return "Cadastrado"
+        conexao = Database.connect()
+        cursor = conexao.cursor()
+
+        try:
+            sql = """
+                INSERT INTO estoque 
+                (estoque_quantidade, estoque_observacao, produto_produto_id, produto_usuario_usuario_id) 
+                VALUES (%s, %s, %s, %s)
+            """
+
+            valores = (
+                estoque_quantidade, 
+                estoque_observacao, 
+                produto_id,             
+                self.usuario_usuario_id  
+            )
+            
+            cursor.execute(sql, valores)
+            conexao.commit()
+            
+            return "Produto e estoque cadastrados com sucesso!"
+        except Exception as e:
+            conexao.rollback() 
+            raise ValueError(f"Erro ao cadastrar o estoque do produto: {e}")
+        finally:
+            cursor.close()
+            conexao.close()
     
     @classmethod
     def relacao_entre_tabelas(cls, id):
@@ -53,18 +83,51 @@ class Produto(Crud_base):
     @classmethod
     def deletar_produto(cls, id):
         produto = cls.buscar_por_id(id)
-
         if not produto:
-            raise ValueError("Produto não encontrado.")
-        if cls.relacao_entre_tabelas(id):
-            raise ValueError("Não é possível excluir o produto porque ele possui pedidos ou movimentações vinculadas.")
-        cls.deletar(id)
+            raise ValueError("Produto não encontrado")
+        
+        conexao = Database.connect()
+        cursor = conexao.cursor()
+        try:
+            # 1. Apagar os dependentes (filhos) na tabela item_pedido_saida
+            query_deletar_saidas = """
+                DELETE FROM item_pedido_saida 
+                WHERE estoque_estoque_id IN (
+                    SELECT estoque_id FROM estoque WHERE produto_produto_id = %s
+                )
+            """
+            cursor.execute(query_deletar_saidas, (id,))
 
-        return "Produto deletado com sucesso!"
+            # 2. Apagar os dependentes (filhos) na tabela item_pedido_entrada
+            query_deletar_entradas = """
+                DELETE FROM item_pedido_entrada 
+                WHERE estoque_estoque_id IN (
+                    SELECT estoque_id FROM estoque WHERE produto_produto_id = %s
+                )
+            """
+            cursor.execute(query_deletar_entradas, (id,))
+            
+            # 3. Agora sim, com os filhos apagados, deletamos o registo "Pai" na tabela estoque.
+            query_deletar_pai = "DELETE FROM estoque WHERE produto_produto_id = %s"
+            cursor.execute(query_deletar_pai, (id,))
+            
+            # Confirma as exclusões na base de dados
+            conexao.commit()
+            
+        except Exception as e:
+            # Se der qualquer erro, desfaz tudo
+            conexao.rollback()
+            raise e 
+            
+        finally:
+            cursor.close()
+            conexao.close()
+        
+        cls.deletar(id)
+        return "Produto deletado com sucesso"
     
     def atualizar_produto(self, id):
         produto = self.buscar_por_id(id)
-
         if not produto:
             raise ValueError("Produto não encontrado!")
         if self.relacao_entre_tabelas(id):
@@ -79,15 +142,54 @@ class Produto(Crud_base):
 
         if not produto:
             raise ValueError("Produto não encontrado")
-
-        return Produto(**produto)
+        
+        return produto
 
     @classmethod
     def buscar_todo_produto(cls, order_by="produto_nome"):
-        produto = cls.buscar_tudo(order_by)
+        produtos = cls.buscar_tudo(order_by)  
 
-        if not produto:
-            raise ValueError("Produtos não encontrado")
+        if not produtos:
+            raise ValueError("Produtos não encontrados")
 
-        return f"Produtos: "
-        
+        for produto in produtos:
+            produto["imagem_base64"] = None
+            if produto.get("imagem_blob"):
+                produto["imagem_base64"] = base64.b64encode(produto["imagem_blob"]).decode("utf-8")
+
+        return produtos
+
+    @classmethod
+    def filtro_categoria(cls, categoria):
+        if not categoria:
+            return []
+
+        conexao = Database.connect()
+        cursor = conexao.cursor(dictionary=True)
+
+        try:
+           
+            sql = """
+                SELECT p.produto_categoria, SUM(e.estoque_quantidade) AS estoque_quantidade 
+            FROM produto p
+            LEFT JOIN estoque e ON e.produto_produto_id = p.produto_id
+            WHERE p.produto_categoria LIKE %s
+            GROUP BY p.produto_categoria;
+            """
+            
+            cursor.execute(sql, (f"%{categoria}%",))
+            resultados = cursor.fetchall()
+
+           
+            if resultados:
+                return resultados
+            else:
+                return []  
+                
+        except Exception as e:
+            print(f"Erro na busca por categoria: {e}")
+            return [] 
+            
+        finally:
+            cursor.close()
+            conexao.close()
