@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vetallis</title>
-    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/style2.css">
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Ícones -->
@@ -14,115 +14,151 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <!-- Nav para trocar formulários-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- RESET E FIX DE TELA TOTAL -->
+
 </head>
 
 <body>
     <!-- topbar -->
     <header>
-        <section class="topbar">
-            <div class="topbar-logo">
-                <img src="/static/imagens/vetalis_branca_sem_fundo.png" alt="Vetalis Logo">
-                <span class="topbar-brand" id="nome">Hello, </span>
+        <section class="topbar titulo-h2 ">
+            <div class="topbar-logo ">
+                <span class="titulo-p align-items-center d-flex mt-3" id="nome">Hello, </span>
             </div>
 
-            <div class="topbar-search">
-                <i class="bi bi-search"></i>
-                <form action="{{ url_for('pesquisa') }}" method="GET">
-                    <input type="text" name="pesquisa" placeholder="Pesquisar...">
+            <div class="topbar-search backgroud-glass border-radius-menor mt-2 ">
+                <i class="bi bi-search" role="img" aria-label="ícone de pesquisa"></i>
+                <form role="search" action="{{ url_for('pesquisa') }}" method="GET">
+                    <input aria-label="Pesquisar no site, aperte Enter para buscar" type="text" name="pesquisa"
+                        placeholder="Pesquisar..." class="backgroud-transparente borda-none texto-p outline-none">
                 </form>
             </div>
 
-            <div class="topbar-actions" style="text-decoration: none;">
-                <a class="topbar-btn" href="{{ url_for('novo_produto') }}">
-                    <i class="bi bi-plus-circle"></i> ADD Produtos
-                </a>
-                {%if session.get('usuario_cargo') == 'adm' %}
-                <a title="Funcionarios" class="topbar-btn topbar-btn-icon text-white" href="{{ url_for('novo_usuario')}}">
-                    <i class="bi bi-person"></i>
+            <div class="topbar-actions  me-2" style="text-decoration: none;">
+                {% if session.get('usuario_cargo') == 'adm' %}
+                <a role="img" title="Botão de funcionarios"
+                    class="topbar-btn topbar-btn-icon texto-a backgroud-glass border-radius-menor"
+                    href="{{ url_for('funcionarios')}}">
+                    <i aria-hidden="true" class="bi bi-person"></i>
                 </a>
                 {% endif %}
-                <a id="link-perfil" class="topbar-btn topbar-btn-icon text-white" title="Configurações" >
-                    <i class="bi bi-gear"></i>
+
+                <!--notificações-->
+                <!--notificações-->
+                <button aria-label="Botão de notificações" type="button"
+                    class="topbar-btn topbar-btn-icon texto-a backgroud-glass border-radius-menor position-relative"
+                    data-bs-toggle="modal" data-bs-target="#notificacoes" style="overflow: visible;">
+                    <i role="img" aria-label="Botão de notificação" class="bi bi-bell"></i>
+                    <span id="notificacoes-badge" class="position-absolute badge rounded-pill bg-danger"
+                        style="display: none;">
+                        0
+                    </span>
+                </button>
+
+                <div class="modal fade" id="notificacoes" tabindex="-1" role="dialog"
+                    aria-labelledby="notificacoesLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered " role="document">
+                        <div class="modal-content border-radius-medio">
+                            <div class="modal-header border-0 pb-0">
+                                <h5 class="modal-title text-white texto-p" id="notificacoesLabel">
+                                    <i class="bi bi-bell-fill me-2"></i>Notificações
+                                </h5>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body" id="notificacoes-modal-body">
+                                <p class="text-center mb-0 notificacoes-vazio">Carregando...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a id="link-perfil" class="topbar-btn topbar-btn-icon texto-a backgroud-glass border-radius-menor">
+                    <i role="img" title="Botão de configurações de perfil" class="bi bi-gear"></i>
                 </a>
-                <a href="{{ url_for('logout') }}" class="topbar-btn topbar-btn-icon text-white" title="Sair">
-                    <i class="bi bi-box-arrow-right"></i>
+                <a href="{{ url_for('logout') }}"
+                    class="topbar-btn topbar-btn-icon texto-a backgroud-glass border-radius-menor">
+                    <i role="img" title="Botão para sair do site" class="bi bi-box-arrow-right"></i>
                 </a>
             </div>
         </section>
     </header>
 
     <!-- Sidebar -->
-    <aside class="sidebar">
-        <nav class="sidebar-nav gap-2" style="margin-top: -15px;">
-            <div class="text-center ">
+    <aside class="sidebar position-fixed border-radius-menor">
+        <nav class="sidebar-nav gap-1">
+            <div>
+                <img src="/static/imagens/vetalis_branca_sem_fundo.png" alt="Vetalis Logo" class="logo-menu">
+            </div>
+            <div class="text-center">
                 <a href="{{ url_for('inicial') }}"
-                    class="sidebar-link active d-flex flex-column align-items-center justify-content-center"
-                    title="Início" style="text-decoration: none; ">
+                    class="sidebar-link backgroud-glass d-flex flex-column align-items-center justify-content-center border-radius-medio texto-p"
+                    title="Botão Menu Home" style="text-decoration: none;">
                     <i class="bi bi-house fs-7 mt-1"></i>
-                    <h6 style="font-size: 65%;">Home</h6>
+                    <h6 aria-hidden="true" style="font-size: 55%;">Home</h6>
                 </a>
             </div>
             <div class="text-center">
-                <a class="sidebar-link d-flex  flex-column align-items-center justify-content-center " title="Produtos"
-                    href="{{url_for('produtos')}}" style="text-decoration: none;">
+                <a class="sidebar-link backgroud-glass d-flex flex-column align-items-center justify-content-center border-radius-medio texto-p"
+                    title="Botão Menu Produtos" href="{{url_for('produtos')}}" style="text-decoration: none;">
                     <i class="bi bi-capsule fs-7 mt-1"></i>
-                    <h6 style="font-size: 65%; text-align: center;">Produto</h6>
+                    <h6 aria-hidden="true" style="font-size: 55%; text-align: center;">Produto</h6>
                 </a>
             </div>
-
             <div class="text-center">
-                <a href="{{url_for('animal')}}" class="sidebar-link d-flex flex-column " title="Animal"
-                    style="text-decoration: none;">
+                <a href="{{url_for('animal')}}"
+                    class="sidebar-link backgroud-glass d-flex flex-column align-items-center justify-content-center border-radius-medio texto-p"
+                    title="Botão Menu Animal" style="text-decoration: none;">
                     <i class="bi bi-feather fs-7 mt-1"></i>
-                    <h6 style="font-size: 65%;">Animais</h6>
+                    <h6 aria-hidden="true" style="font-size: 55%;">Animais</h6>
                 </a>
             </div>
-
             <div class="text-center">
-                <a href="{{url_for('sensor')}}" class="sidebar-link d-flex flex-column" title="Sensor"
-                    style="text-decoration: none;">
+                <a href="{{url_for('sensor')}}"
+                    class="sidebar-link backgroud-glass d-flex flex-column align-items-center justify-content-center border-radius-medio texto-p"
+                    title="Botão Menu Sensor" style="text-decoration: none;">
                     <i class="bi bi-radar fs-7 mt-1"></i>
-                    <h6 style="font-size: 65%;">Sensor</h6>
+                    <h6 aria-hidden="true" style="font-size: 55%;">Sensor</h6>
                 </a>
             </div>
-
             <div class="text-center">
-                <a href="{{url_for('fornecedor_novo')}}" class="sidebar-link d-flex flex-column" title="Fornecedor"
-                    style="text-decoration: none;">
+                <a href="{{url_for('fornecedor_novo')}}"
+                    class="sidebar-link backgroud-glass d-flex flex-column align-items-center justify-content-center border-radius-medio texto-p"
+                    title="Botão Menu Fornecedor" style="text-decoration: none;">
                     <i class="bi bi-shop-window fs-7 mt-1"></i>
-                    <h6 style="font-size: 65%;">Fornecedor</h6>
+                    <h6 aria-hidden="true" style="font-size: 55%;">Fornecedor</h6>
                 </a>
             </div>
-
             <div class="text-center">
-                <a href="{{url_for('pedido')}}" class="sidebar-link d-flex flex-column" title="Pedidos"
-                    style="text-decoration: none;">
+                <a href="{{url_for('pedidos_cadastrados')}}"
+                    class="sidebar-link backgroud-glass d-flex flex-column align-items-center justify-content-center border-radius-medio texto-p"
+                    title=" Botão Menu Pedidos" style="text-decoration: none;">
                     <i class="bi bi-box2 fs-7 mt-1"></i>
-                    <h6 style="font-size: 65%;">Pedido</h6>
+                    <h6 aria-hidden="true" style="font-size: 55%;">Pedido</h6>
                 </a>
             </div>
-
             <div class="text-center">
-                <a href="{{url_for('lista_compra')}}" class="sidebar-link d-flex flex-column" title="Lista de compra"
-                    style="text-decoration: none;">
+                <a href="{{url_for('lista_compra')}}"
+                    class="sidebar-link backgroud-glass d-flex flex-column align-items-center justify-content-center border-radius-medio texto-p"
+                    title="Botão Menu Lista de compra" style="text-decoration: none;">
                     <i class="bi bi-cart3 fs-7 mt-1"></i>
-                    <h6 style="font-size: 65%;">Compra</h6>
+                    <h6 aria-hidden="true" style="font-size: 55%;">Compra</h6>
                 </a>
             </div>
-
             <div class="text-center">
-                <a href="{{url_for('relatorio')}}" class="sidebar-link d-flex flex-column" title="Relatórios"
-                    style="text-decoration: none;">
+                <a href="{{url_for('relatorio')}}"
+                    class="sidebar-link backgroud-glass d-flex flex-column align-items-center justify-content-center border-radius-medio texto-p"
+                    title="Botão Menu Indicadores" style="text-decoration: none;">
                     <i class="bi bi-graph-up fs-7 mt-1"></i>
-                    <h6 style="font-size: 65%;">Relatório</h6>
+                    <h6 aria-hidden="true" style="font-size: 55%;">Indicador</h6>
                 </a>
             </div>
-
-
         </nav>
     </aside>
-    <main class="d-flex justify-content-center align-items-center" style=" padding: 100px 5px 40px 120px;">
-        <div class="login-card text-center me-4" style="max-width: 1400px; width: 100%; min-height: 575px !important;">
+
+    <main class="d-flex justify-content-start align-items-start"
+        style="padding: 33px 30px 20px 120px; overflow-y: auto;">
+        <div class="text-center w-100 p-2" style="max-width: 1400px;">
             {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
             {% for categoria, mensagem in messages %}
@@ -135,23 +171,20 @@
             {% endfor %}
             {% endif %}
             {% endwith %}
+
             {% block conteudo %} {% endblock %}
         </div>
     </main>
-    <script>
 
-        // 1. PRIMEIRO: Salvamos os dados do Flask no localStorage.
-        // Assim garantimos que ele nunca estará vazio quando formos ler logo abaixo.
+    <script>
         localStorage.setItem("usuario", JSON.stringify({
             id: "{{ session.get('usuario_id') }}",
             nome: "{{ session.get('usuario_nome') }}",
             cargo: "{{ session.get('usuario_cargo') }}"
         }));
 
-        // 2. SEGUNDO: Lemos a informação atualizada
         const usuario = JSON.parse(localStorage.getItem("usuario"));
 
-        // 3. TERCEIRO: Atualizamos a tela, sempre checando se o elemento existe (evita quebrar o código)
         if (usuario) {
             const elementoNome = document.getElementById("nome");
             if (elementoNome) {
@@ -169,5 +202,87 @@
             }
         }
 
+        let notificacoesCache = [];
+
+        async function carregarNotificacoes() {
+            try {
+                const resp = await fetch("/api/notificacoes");
+                const data = await resp.json();
+
+                if (data.sucesso) {
+                    notificacoesCache = data.notificacoes;
+
+                    const badge = document.getElementById("notificacoes-badge");
+                    if (data.total > 0) {
+                        badge.textContent = data.total;
+                        badge.style.display = "inline-block";
+                    } else {
+                        badge.style.display = "none";
+                    }
+                }
+            } catch (erro) {
+                console.error("Erro ao carregar notificações:", erro);
+            }
+        }
+
+        function renderizarModal() {
+            const container = document.getElementById("notificacoes-modal-body");
+
+            if (!notificacoesCache || notificacoesCache.length === 0) {
+                container.innerHTML = `<p class="text-center mb-0 notificacoes-vazio">Nenhuma notificação pendente.</p>`;
+                return;
+            }
+
+            container.innerHTML = notificacoesCache.map(n => `
+        <div class="notificacao-item" style="cursor:pointer;"">
+            <span>${n.notificacao_descricao}</span>
+            <small>${new Date(n.notificacao_data).toLocaleDateString('pt-BR')}</small>
+            <i class="bi bi-trash text-danger" role="button" title="Apagar notificação"
+               onclick="apagarNotificacao(${n.notificacao_id})"></i>
+        </div>
+    `).join("");
+        }
+
+        async function apagarNotificacao(id) {
+            try {
+                const resp = await fetch(`/api/notificacoes/${id}`, { method: 'DELETE' });
+                const data = await resp.json();
+
+                if (data.sucesso) {
+                    // Remove do cache local sem precisar buscar tudo de novo
+                    notificacoesCache = notificacoesCache.filter(n => n.notificacao_id !== id);
+
+                    // Redesenha o modal e o badge
+                    renderizarModal();
+
+                    const badge = document.getElementById("notificacoes-badge");
+                    if (notificacoesCache.length > 0) {
+                        badge.textContent = notificacoesCache.length;
+                        badge.style.display = "inline-block";
+                    } else {
+                        badge.style.display = "none";
+                    }
+                } else {
+                    console.error("Erro ao apagar notificação:", data.erro);
+                }
+            } catch (erro) {
+                console.error("Erro ao apagar notificação:", erro);
+            }
+        }
+
+        // Carrega ao abrir a página
+        document.addEventListener("DOMContentLoaded", carregarNotificacoes);
+
+        // Atualiza o contador periodicamente
+        setInterval(carregarNotificacoes, 60000);
+
+        // Renderiza a lista no momento em que o modal é aberto
+        const modalNotificacoes = document.getElementById("notificacoes");
+        if (modalNotificacoes) {
+            modalNotificacoes.addEventListener("show.bs.modal", renderizarModal);
+        }
+
     </script>
 </body>
+
+</html>

@@ -1,0 +1,1905 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif !important;
+
+}
+/*Todo body e html vai ter o background definido e em todo a tela*/
+html,
+body {
+    min-height: 100vh;
+    background-color: hsla(0, 0%, 0%, 1) !important;
+    background-image:
+        radial-gradient(at 41% 89%, hsla(162, 31%, 41%, 0.84) 0px, transparent 50%),
+        radial-gradient(at 26% 30%, hsla(180, 100%, 22%, 0.66) 0px, transparent 50%),
+        radial-gradient(at 80% 35%, hsla(174, 100%, 22%, 1) 0px, transparent 50%) !important;
+    background-attachment: fixed !important;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.backgroud-transparente {
+    background: transparent !important;
+}
+
+.backgroud-branco {
+    background-color: #fff0ff;
+}
+/*A cor do background vai ser verde*/
+.background-verde-medio {
+    background-color: #03c356 !important;
+}
+/*A cor do background vai ser vermelho*/
+.background-vermelho {
+    background-color: #e31818 !important;
+}
+
+.verde-primario-texto {
+    color: #074040 !important;
+}
+
+.cinza-texto {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 12px;
+}
+
+.texto-maiusculo {
+    text-transform: uppercase;
+}
+
+
+.backgroud-glass {
+    background: rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 5px 5px 5px rgba(110, 109, 109, 0.174) !important;
+}
+
+
+/* z-index */
+
+.z-index-1 {
+    z-index: 1;
+}
+
+
+/* Textos, modifica o tamanho dos textos */
+
+.titulo-h3 {
+    color: #fff0ff;
+    font-size: 25px;
+    font-weight: bolder;
+}
+
+.titulo-h2 {
+    color: #fff0ff;
+    font-weight: bold;
+    font-size: large;
+}
+
+.texto-p {
+    color: #fff0ff !important;
+    font-weight: normal !important;
+    font-size: medium !important;
+}
+
+.texto-a {
+    text-decoration: none !important;
+    color: #fff0ff !important;
+    font-size: 17px !important;
+    font-weight: 500 !important;
+
+}
+
+
+.list-style-none {
+    list-style: none !important;
+}
+
+.height-maior {
+    height: 100vh;
+}
+
+
+/* Position, muda a posição do item que for pareado */
+.position-fixed {
+    position: fixed;
+}
+
+.position-relative {
+    position: relative;
+}
+
+.position-absolute {
+    position: absolute !important;
+}
+
+
+/* Bordas, mudar cor, tamanho e curvatura*/
+
+.border-radius-maior {
+    border-radius: 60px !important;
+}
+
+.border-radius-medio {
+    border-radius: 20px;
+}
+
+.border-radius-menor {
+    border-radius: 15px !important;
+}
+
+.borda-none {
+    border: none;
+}
+
+.boder-bottom {
+    border-bottom: solid 1px #fff;
+    width: 100%;
+}
+
+.outline-none {
+    outline: none;
+}
+
+.borda-dashed {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 253px;
+    height: 315px;
+    border: 2px dashed rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+    transition: 0.3s;
+    background: rgba(255, 255, 255, 0.05);
+    overflow: hidden;
+}
+
+/* Textarea tamanho */
+.textarea-tamanho {
+    height: 200px !important;
+    resize: vertical !important;
+}
+
+/* Base.html */
+/*Define o tamanho menu superior, alterando espaçamento, disposição, sobreposição, curvatura*/
+.topbar {
+    width: 89%;
+    margin: 15px 25px 0 auto;
+    padding: 10px 5px 10px 5px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 100;
+    justify-content: space-between !important;
+}
+/*Define como a logo vai ser disposta e o espaçamento*/
+.topbar-logo {
+    display: flex;
+    align-items: start !important;
+    gap: 8px;
+}
+/*Define como o botão de funcionários vai ser disposto e seu espaçamento*/
+.topbar-actions {
+    display: flex;
+    gap: 8px;
+    margin-right: 2%;
+}
+/*Define o espaçamento, disposição(display, align-items) dos botões de gerenciamento, notificação, logout e funcionários */
+.topbar-btn {
+    padding: 6px 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+/*Modifica o tamanho dos icones dos botões*/
+.topbar-btn-icon {
+    width: 50px;
+    height: 50px;
+    padding: 0;
+    justify-content: center;
+}
+/*Define o tamanho e disposição do menu lateral*/
+.sidebar {
+    top: 45px;
+    left: 25px;
+    width: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+/*Define a forma como os botões vão ser dispostos em coluna no menu lateral*/
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: -10px;
+}
+/*Define o tamanho da logo*/
+.logo-menu {
+    width: 100px;
+    height: 70px;
+}
+/*Define o tamanho do botão ou o link*/
+.sidebar-link {
+    width: 63px;
+    height: 63px;
+    margin-top: 8px;
+}
+/*Define a disposição da barra de pesquisa*/
+.topbar-search {
+    flex: 4;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    max-width: 400px;
+}
+
+
+/* Tela animais cadastrados */
+
+.titulo-animal {
+    max-width: 20%;
+    height: 50px;
+    align-items: center;
+}
+
+#titulo-animal-cadastrado{
+    width: 30%;
+}
+
+.table> :not(caption)>*>* {
+    background-color: transparent !important;
+}
+
+/* Login */
+/*Define as proporções da logo*/
+.logo-login {
+    width: 75%;
+    margin-bottom: 20px;
+    opacity: 30%;
+    margin-top: 117px;
+}
+/*Define o tamanho do card de login*/
+.login-card {
+    padding: 40px;
+    width: 100%;
+    max-width: 380px;
+
+}
+
+/* Sensores cadastrados*/
+
+.entrada-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+/*Define o tamanho que a imagem pode aparecer*/
+.sensor-cont-img {
+    width: 170px;
+    height: 120px;
+    max-width: 100%;
+    overflow: hidden;
+}
+/*Define o tamanho da imagem do sensor para ser mostrada no card*/
+.img-sensor {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+/*Define como a parte da imagem vai ser mostrada*/
+.upload-box {
+    flex-direction: column;
+    cursor: pointer;
+    transition: 0.3s;
+    align-self: flex-start;
+    z-index: 1000;
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+}
+
+.card-sensor {
+    max-width: 24% !important;
+}
+
+/* Adicionar Imagem Campo */
+/* define o espaçamento e o tamanho do card que serve para adicionar a imagem */
+.uploaded-image {
+    cursor: pointer !important;
+    overflow: hidden !important;
+    width: 250px !important;
+    height: 400px !important;
+    object-fit: cover;
+    display: none;
+    object-position: center !important;
+    margin-right: 40px;
+}
+
+.mudar-imagem-btn {
+    bottom: 8px;
+    right: 8px;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+
+/* Imagem paginas de informações */
+
+.image-box {
+    max-width: 250px !important;
+    max-height: 400px !important;
+    cursor: pointer;
+    transition: 0.3s;
+    object-fit: cover;
+}
+
+/* Landing Page */
+/*Define o tamanho que o body vai pegar*/
+#body-landing-page {
+    width: 100%;
+    height: 100%;
+}
+
+/*Define as proporções da logo*/
+#logo-menu-lp {
+    width: 100%;
+    height: 100%;
+    max-width: 80px;
+    margin-top: 0.3rem;
+    object-fit: contain;
+}
+
+#mobile-topbar {
+    display: none;
+}
+
+/*Define como vai ser o botão de login no menu da landing page*/
+#botao-login-menu {
+    background: #FFFFF0;
+    opacity: 85%;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    padding: 16px;
+    box-shadow: 5px 5px 5px rgba(110, 109, 109, 0.174);
+    font-weight: 500;
+    text-decoration: none;
+    height: 35px;
+    align-items: center;
+}
+
+#botao-login-menu-mobile {
+    display: none;
+}
+
+
+/*Define a forma que o menu vai aparecer, em formato de linha e no centro, por exemplo*/
+#menu-nav {
+    position: fixed;
+    right: 0;
+    left: 0;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    height: 100px;
+    align-items: center;
+}
+
+/*Muda a cor de fundo do menu*/
+#lista-menu {
+    background: rgba(255, 255, 255, 0.2);
+    gap: 20px;
+}
+
+/*Define o tamanho e disposição do slogan no meio do video*/
+#slogan-content {
+    z-index: 3;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #FFFFF0;
+    text-align: center;
+    font-size: 4.5rem;
+    font-weight: 550px;
+}
+/*Define a animação do slogan, para aparecer de forma digitada*/
+#slogan {
+    white-space: nowrap;
+    overflow: hidden;
+    width: 0;
+    animation: digitar 3s steps(31) forwards;
+    z-index: 3;
+    font-weight: 700;
+    font-size: rem;
+}
+/*Define até qual largura a animação vai chegar*/
+@keyframes digitar {
+    to {
+        width: 100%;
+    }
+}
+
+/*Define proporções e disposição do vídeo na landing page*/
+#video-menu {
+    border-radius: 15px;
+    position: absolute;
+    width: 98%;
+    height: 97%;
+    object-fit: cover;
+    top: 2%;
+    left: 1%;
+    z-index: 0;
+    border: none;
+}
+
+#sobre-nos-section {
+    height: 10%;
+}
+/*Defini a cor de fundo das partes da landing page*/
+#header-lp {
+    background-color: #0000006a;
+}
+
+#produtos-container {
+    background-color: #0000006a;
+}
+
+#contato-section {
+    background-color: #0000006a;
+}
+
+/*======================= Cards Produtos========================*/
+
+/*Defini as proporções dos card de produto*/
+#cards-produto {
+    padding: 80px 50px 40px 50px;
+    color: #FFFFF0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 200px 300px auto;
+    grid-template-areas:
+        "a a b b"
+        "c d b b"
+        "e e f f";
+    gap: 16px;
+    height: 100%;
+}
+
+
+/*Várias seções agora explicitando como card de produto funciona e se parece, ou seja,
+o tamnho, espaçamento e também como vai funcionar a animação de aparecer na tela e se expandir */
+
+/*Card Oferecemos*/
+
+#card-oferecemos {
+    grid-area: a;
+    transition: 0.5s;
+    color: #FFFFF0;
+    transition: 0.2s ease-in-out;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+
+}
+
+#card-oferecemos:hover>#texto-oferecemos {
+    opacity: 1;
+}
+
+#card-oferecemos:hover>#titulo-oferecemos {
+    height: 65%;
+    opacity: 0.2;
+    filter: blur(9px);
+    animation: anim 3s infinite;
+}
+
+#card-oferecemos:hover>#icone-oferecemos {
+    opacity: 0.2;
+    animation: anim 3s infinite;
+    filter: blur(9px) brightness(0) invert(1);
+}
+
+#card-oferecemos:hover {
+    background-color: #93d94327;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transform: scale(1.03);
+}
+
+.icone-cards-lp {
+    display: block;
+    width: 100%;
+    padding-left: 10px;
+    padding-top: 10px;
+    filter: brightness(0) invert(1);
+    width: 50px;
+}
+
+.titulo-cards-lp {
+    margin-top: 0.5rem;
+    margin-left: 1.5rem;
+}
+
+#texto-oferecemos {
+    opacity: 0;
+    gap: 15px;
+    transition: 1s ease-in-out;
+    z-index: 2;
+    top: 10%;
+    left: 20px;
+    right: 20px;
+}
+
+.menu-input-checkbox {
+    display: none;
+}
+
+/*#img-sobre img {
+    max-width: 465px;
+    height: 350px;
+    object-fit: cover;
+    margin: 15px;
+}*/
+
+/*Card Tecnologia*/
+
+#card-tecnologia-utilizada {
+    grid-area: d;
+    transition: 0.2s ease-in-out;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+#icone-tecnologia {
+    margin-top: 1rem;
+    margin-left: 1rem;
+}
+
+#card-tecnologia-utilizada:hover>#icone-tecnologia {
+    opacity: 0.2;
+    animation: anim 3s infinite;
+    filter: blur(9px) brightness(0) invert(1);
+}
+
+#titulo-tecnologia {
+    position: absolute;
+    transition: 0.4s ease-in-out;
+    z-index: 1;
+    margin-top: 0.5rem;
+    margin-left: 1.5rem;
+}
+
+#titulo-oferecemos {
+    position: absolute;
+    transition: 0.4s ease-in-out;
+    z-index: 1;
+    margin-top: 0.5rem;
+    margin-left: 1.5rem;
+}
+
+
+#card-tecnologia-utilizada:hover>#titulo-tecnologia {
+    opacity: 0.2;
+    height: 65%;
+    filter: blur(9px);
+    animation: anim 3s infinite;
+}
+
+
+#texto-tecnologia {
+    padding-top: 40px;
+    opacity: 0;
+    gap: 15px;
+    transition: 1s ease-in-out;
+    z-index: 2;
+    position: absolute;
+    top: -5%;
+    left: 20px;
+    right: 20px;
+}
+
+#card-tecnologia-utilizada:hover>#texto-tecnologia {
+    opacity: 1;
+}
+
+
+/*Card Inovação*/
+
+#card-inovacao {
+    grid-area: f;
+    flex-direction: column;
+    transition: 0.2s ease-in-out;
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    min-height: 200px;
+}
+
+#texto-inovacao {
+    opacity: 0;
+    flex-direction: column;
+    gap: 15px;
+    transition: 1s ease-in-out;
+    z-index: 2;
+    position: absolute;
+    top: 0;
+    margin-top: 1rem;
+    margin-left: 1rem;
+}
+
+#card-inovacao:hover>#texto-inovacao {
+    opacity: 1;
+}
+
+#titulo-inovacao {
+    width: 100%;
+    position: absolute;
+    transition: 0.4s ease-in-out;
+    z-index: 1;
+    margin-top: 0.5rem;
+    margin-left: 1.5rem;
+}
+
+#card-inovacao:hover>#titulo-inovacao {
+    opacity: 0.2;
+    height: 65%;
+    filter: blur(9px);
+    animation: anim 3s infinite;
+}
+
+#card-inovacao:hover>#icone-inovacao {
+    opacity: 0.2;
+    animation: anim 3s infinite;
+    filter: blur(9px) brightness(0) invert(1);
+}
+
+#card-inovacao:hover {
+    background-color: #93d94327;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transform: scale(1.03);
+}
+
+#icone-inovacao {
+    margin-top: 1rem;
+    margin-left: 1rem;
+}
+
+/*Card Solução*/
+
+
+#card-solucao {
+    overflow: hidden;
+    grid-area: b;
+    transition: 0.2 ease-in-out;
+    width: 100%;
+    height: 100%;
+}
+
+#card-solucao:hover>#titulo-solucao {
+    opacity: 0.5;
+    height: 65%;
+    filter: blur(9px);
+    animation: anim 3s infinite;
+}
+
+#titulo-solucao {
+    width: 100%;
+    position: absolute;
+    transition: 1s ease-in-out;
+    z-index: 1;
+    margin-top: 0.5rem;
+    margin-left: 1.5rem;
+}
+
+#texto-solucao {
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    transition: 1s ease-in-out;
+    z-index: 2;
+    position: absolute;
+    top: 10%;
+    left: 20px;
+    right: 20px;
+}
+
+#card-solucao:hover>#texto-solucao {
+    opacity: 1;
+}
+
+#card-solucao:hover>#icone-solucao {
+    opacity: 0.3;
+    animation: anim 3s infinite;
+    filter: blur(9px) brightness(0) invert(1);
+}
+
+#card-solucao:hover>#img-solucao {
+    opacity: 0.2;
+    animation: anim 10s infinite;
+    filter: blur(9px);
+}
+
+#card-solucao:hover {
+    background-color: #93d94327;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transform: scale(1.02);
+}
+
+#icone-solucao {
+    margin-top: 1rem;
+    margin-left: 1rem;
+}
+
+#img-solucao {
+    width: 53%;
+    position: absolute;
+    bottom: -30px;
+    left: 40%;
+}
+
+
+/*Card Planos futuros*/
+#card-planos-futuros {
+    grid-area: e;
+    transition: 0.2s ease-in-out;
+    width: 100%;
+    height: 100%;
+}
+
+#card-planos-futuros:hover>#icone-planos-futuros {
+    opacity: 0.2;
+    animation: anim 3s infinite;
+    filter: blur(9px) brightness(0) invert(1);
+}
+
+#icone-planos-futuros {
+    margin-top: 1rem;
+    margin-left: 1rem;
+}
+
+#titulo-planos-futuros {
+    width: 100%;
+    position: absolute;
+    transition: 0.4s ease-in-out;
+    z-index: 1;
+    margin-top: 0.5rem;
+    margin-left: 1.5rem;
+}
+
+#card-planos-futuros:hover>#titulo-planos-futuros {
+    opacity: 0.2;
+    height: 65%;
+    filter: blur(9px);
+    animation: anim 3s infinite;
+}
+
+#texto-planos-futuros {
+    opacity: 0;
+    gap: 15px;
+    transition: 1s ease-in-out;
+    z-index: 2;
+    position: absolute;
+    top: 6%;
+    left: 20px;
+    right: 20px;
+}
+
+#card-planos-futuros:hover>#texto-planos-futuros {
+    opacity: 1;
+}
+
+
+/*Card Dados Mercado*/
+
+#card-dados-mercado {
+    grid-area: c;
+    flex-direction: column;
+    transition: 0.2 ease-in-out;
+    width: 100%;
+    height: 100%;
+}
+
+#card-dados-mercado:hover>#icone-mercado {
+    opacity: 0.2;
+    animation: anim 3s infinite;
+    filter: blur(9px) brightness(0) invert(1);
+}
+
+#icone-mercado {
+    margin-top: 1rem;
+    margin-left: 1rem;
+}
+
+#titulo-mercado {
+    position: absolute;
+    transition: 0.4s ease-in-out;
+    z-index: 1;
+    margin-top: 0.5rem;
+    margin-left: 1.5rem;
+}
+
+#card-dados-mercado:hover>#titulo-mercado {
+    opacity: 0.2;
+    height: 65%;
+    filter: blur(9px);
+    animation: anim 3s infinite;
+}
+
+#texto-dados {
+    opacity: 0;
+    gap: 15px;
+    transition: 1s ease-in-out;
+    z-index: 2;
+    position: absolute;
+    top: 5%;
+    left: 20px;
+    right: 20px;
+}
+
+#card-dados-mercado:hover>#texto-dados {
+    opacity: 1;
+}
+
+#canvas-ondas-back {
+    top: 0;
+    left: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+
+/* =================== Sobre Nós- Landing Page==================*/
+#sobre-nos-section {
+    padding-bottom: 120px;
+    padding-top: 120px;
+}
+
+
+.sobre-nos-container {
+
+    flex-wrap: wrap;
+    margin: 50px;
+    /* Reduzido de 100px para ocupar menos espaço na tela */
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    min-height: auto;
+    /* Mudado de 450px para auto, assim ele não fica com espaço sobrando */
+
+}
+/*Define o tamanho da imagem*/
+#img-sobre img {
+    max-width: 465px;
+    height: 350px;
+    object-fit: cover;
+    margin: 15px;
+}
+/*Define as prporções do texto*/
+#texto-sobre {
+    text-align: justify;
+    line-height: 1.6;
+    flex: 1;
+    max-width: 100%;
+    margin: 30px;
+    font-size: 20px;
+    color: #FFFFF0;
+    box-sizing: border-box;
+}
+
+/*Define cor, tamanho e espaçamento do texto*/
+#titulo-sobre {
+    color: #FFFFF0;
+    font-size: 2.5rem;
+    padding-bottom: 10px;
+}
+/*Tamanho das ondas do fundo*/
+#canvas-ondas-front {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+
+
+/*===========================Contato =========================*/
+/*Define o tamanho da imagem*/
+#img-contato {
+    width: 45%;
+    display: flex;
+    justify-content: center;
+}
+/*Defini os tamanhos dos campos*/
+.dados-contato {
+    height: 40px;
+    backdrop-filter: blur(10px);
+    padding-left: 15px;
+}
+
+.dados-contato::placeholder {
+    color: #FFFFF0;
+}
+
+#img-contato {
+    max-width: 45%;
+    display: flex;
+    justify-content: center;
+}
+/*A imagem posta no contato vai ser desse jeito*/
+#img-contato img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+}
+
+#mensagem-contato {
+    width: 100%;
+    height: 100px;
+    padding-left: 15px;
+    resize: vertical;
+}
+
+#mensagem-contato::placeholder {
+    color: #FFFFF0;
+}
+
+/*================= Footer - Landing Page=============*/
+/*Defini as proporções da parte do footer*/
+#rodape-container {
+    display: flex;
+    padding-left: 10px;
+    gap: 80px;
+}
+/*Os links vão ter essa cor e a estilização padrão*/
+#rodape-container a {
+    text-decoration: none;
+    color: #fff;
+    list-style: none !important;
+}
+/*Defini cor, tamanho e disposição*/
+.rodape-titulo {
+    margin-bottom: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #FFFFF0;
+}
+
+#informacao-rodape a {
+    font-size: 18px;
+}
+/*Tamanho dos ícones de redes sociais*/
+.social_icon {
+    width: 35px;
+    height: 35px;
+    margin: 10px;
+}
+/*Defini como vai ser o titulo que está no radapé*/
+#vetallis-rodape {
+    font-size: 17rem;
+    font-weight: 700;
+    letter-spacing: 20px;
+    color: rgba(255, 255, 255, 0.3);
+    text-align: center;
+    margin-top: 0.3%;
+}
+
+/* Tela Inicial */
+
+#card-fantasma-1 {
+    width: 90%;
+    height: 20px;
+    background-color: #0000006a;
+    top: 70px;
+    margin-left: 7px;
+}
+
+
+.titulo-estoque{
+    color: rgba(255, 255, 255, 0.722);
+    text-shadow: 0 2px 8px rgba(255, 255, 255, 0.15);
+
+}
+
+/*Defini o tamanho, cor e disposição do card de categoria*/
+.card-categoria {
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 100%;
+    text-align: center;
+    font-size: 2.2rem;
+    color: rgba(255, 255, 255, 0.722);
+    text-shadow: 0 2px 8px rgba(255, 255, 255, 0.15);
+    letter-spacing: 0.5px;
+}
+
+.container_inicial_res {
+    display: flex;
+}
+
+.primeira_linha_res {
+    align-items: start;
+}
+
+/* Utilitário genérico reutilizado em vários cards da tela inicial */
+.texto-branco {
+    color: #fff !important;
+}
+
+/* Card de estoque (número + rótulo) */
+.card-estoque-valor {
+    margin-top: 85px;
+}
+
+.texto-unidade-estoque {
+    font-size: 0.9rem;
+}
+
+.card-estoque-vazio {
+    margin-top: 75px;
+}
+
+.botao-filtro-icone {
+    width: 45px;
+    height: 45px;
+}
+
+/* Card "Estoque" (cabeçalho ao lado do card de categoria) */
+.card-estoque-header {
+    border-radius: 15px;
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    padding: 5px;
+    width: 100% !important;
+    height: 190px;
+}
+
+.label-estoque {
+    margin-left: 0 !important;
+    align-self: flex-start;
+    z-index: 1000;
+}
+
+/* Container dos sensores (Luminosidade / Umidade / Temperatura), definindo cor, tamanho e curvatura */
+.card-sensores-container {
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.15);
+    width: 100%;
+}
+
+.label-sensores {
+    align-self: flex-start;
+    z-index: 1000;
+}
+
+.card-luminosidade {
+    width: 50%;
+    border-radius: 15px;
+    background: #03c35677;
+
+}
+
+.card-umidade {
+    width: 50%;
+    border-radius: 15px;
+    background: #85d26475;
+
+}
+
+.card-temperatura {
+    border-radius: 15px;
+    background: #1c9e8677;
+    width: 100% !important;
+    height: 58%;
+}
+
+
+
+.temperatura-valor {
+    bottom: 10px;
+    right: 15px;
+}
+
+/* Card "Destaque" (carrossel de produtos) */
+.card-destaque {
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.15);
+    width: 500px;
+    padding: 15px;
+}
+
+.botao-destaque-icone {
+    width: 45px;
+    height: 45px;
+    background: rgba(255, 255, 255, 0.341);
+}
+
+.carousel-vertical {
+    width: 100%;
+    overflow: hidden;
+}
+
+/*Ícone de novo no carrossel, defini cor e tamanho*/
+.badge-novo {
+    background: #2abfb0;
+    font-size: 1rem;
+    padding: 8px 16px;
+    border-radius: 8px;
+}
+/*Ícone de destaque, defini cor e tamanho*/
+.badge-destaque {
+    background: #089068;
+    font-size: 1rem;
+    padding: 8px 16px;
+    border-radius: 8px;
+}
+
+.badge-cattle {
+    background: #15B3BD;
+    font-size: 1rem;
+    padding: 8px 16px;
+    border-radius: 8px;
+}
+/*Defini como vai ser o espaço que vai abrigar a imagem*/
+.produto-imagem-container {
+    background: white;
+    border-radius: 15px;
+    padding: 10px;
+    width: 140px;
+    height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+/*Defini o tamanho da imagem que vai ficar no carrossel*/
+.produto-imagem {
+    border-radius: 10px;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+/*Defini o espaço que as informações do produto vão ser abrigadas*/
+.produto-info-box {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 15px;
+    margin-top: 20px;
+}
+
+/* Modal de filtro por categoria */
+.modal-filtro-dialog {
+    max-width: 360px;
+}
+/*Defini o backgroundo do filtro */
+.modal-filtro-content {
+    border-radius: 16px;
+    background: #498C79 !important;
+    padding: 8px;
+}
+
+.modal-filtro-header {
+    flex-direction: row-reverse;
+    justify-content: space-between;
+}
+/*Defini tamanho, cor e disposição do botão de fechar do filtro */
+.botao-fechar-modal {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.titulo-modal-filtro {
+    font-size: 22px;
+}
+
+.item-filtro-categoria {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Página Gerenciar Perfil */
+
+.perfil-container {
+    max-width: 1400px;
+}
+/*Defini tamanho e disposição da região que vai abrigar a imagem*/
+.perfil-upload-box {
+    position: relative;
+    width: 200px;
+    height: 320px;
+    cursor: pointer;
+    overflow: hidden;
+    border-radius: 10px;
+    background-color: #6c757d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.texto-upload-overlay {
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    text-align: center;
+    color: #ffffff;
+    font-size: 0.85rem;
+    z-index: 2;
+    pointer-events: none;
+    text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.perfil-preview-imagem {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+.perfil-oculto {
+    display: none;
+}
+
+.icone-mudar-imagem {
+    font-size: 14px;
+}
+
+.perfil-divisor-vertical {
+    border-left: 1px solid #fff;
+    opacity: 0.3;
+}
+
+.flex-grow-auto {
+    flex: 1 1 auto;
+}
+
+.perfil-titulo-editar {
+    padding: 5px;
+}
+
+.btn-salvar-perfil {
+    background-color: #03A64A;
+    width: 200px;
+    border-radius: 15px;
+    height: 45px;
+}
+
+.btn-confirmar-exclusao {
+    max-width: 150px;
+    height: 45px;
+    border-radius: 15px;
+}
+
+.mudar-imagem-btn {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.5);
+    bottom: 8px;
+    right: 8px;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+
+.form::placeholder {
+    color: #fff;
+}
+
+.lista_pedidos {
+    justify-content: space-evenly;
+}
+
+.modal-title,
+.modal-body {
+    color: #000 !important
+}
+
+/*============ Design Responsivo================*/
+
+/*Modifica toda a landing page para um design responsivo, ou seja, 
+alterar todas as div e botões para um tamanho que caiba em um aparelho mobile */
+@media (max-width: 768px) {
+
+    .texto-a {
+        font-size: 1rem !important;
+    }
+
+
+    #menu-nav {
+        position: fixed;
+        height: auto;
+        justify-content: flex-end;
+    }
+    /*Altera o menu, no caso a altura quando está no menu hamburguer*/
+    #mobile-topbar { 
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 64px;
+        padding: 0 20px;
+        background: rgba(0, 0, 0, 0.35);
+        z-index: 1001;
+    }
+    /*Altera o tamanho da logo*/
+    #logo-mobile-topbar {
+        height: 40px;
+        width: auto;
+        object-fit: contain;
+    }
+    /*Modifica o botão de hamburguer que esconde o menu*/
+    #botao-hamburguer {
+        width: 32px;
+        height: 24px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        cursor: pointer;
+    }
+    /*Altera o ícone que fica no hamburguer, ou seja, a cor e tamanho*/
+    #botao-hamburguer span {
+        display: block;
+        height: 3px;
+        width: 100%;
+        background: #fff;
+        border-radius: 2px;
+    }
+    /*Modifica os itens da lista que aparece após clicar no botão de hamburguer, no caso o tamanho, direção, altura e entre outros de cada item */
+    #lista-menu {
+        display: none !important;
+        position: fixed !important;
+        top: 64px !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        height: auto !important;
+        width: 100% !important;
+        max-width: none !important;
+        flex-direction: column !important;
+        justify-content: flex-start !important;
+        align-items: flex-start !important;
+        gap: 20px !important;
+        background: #04211f !important;
+        border-radius: 0 !important;
+        margin: 0 !important;
+        padding: 30px !important;
+        z-index: 1000 !important;
+        overflow-y: auto !important;
+    }
+
+    .menu-input-checkbox:checked~#lista-menu {
+        display: flex !important;
+    }
+
+    #lista-menu li:first-child {
+        display: none !important;
+    }
+
+    #lista-menu .texto-a {
+        margin-left: 0 !important;
+        margin-top: 0 !important;
+        font-size: 1.2rem !important;
+    }
+
+    #botao-login-menu {
+        margin: 0;
+        display: none;
+    }
+
+
+    header {
+        height: auto;
+        min-height: 100vh;
+    }
+    /*Modfifica o tamanho do vídeo e como ele aparece*/
+    #video-menu {
+        top: 64px;
+        height: calc(100% - 74px);
+    }
+    /*Essas duas modificam o tamanho da slogan e como ele aparece, sem animação*/
+    #slogan-content {
+        font-size: 1.9rem;
+        width: 90%;
+        top: 45%;
+    }
+
+    #slogan {
+        white-space: normal;
+        width: auto;
+        animation: none;
+    }
+    /*Modifica os cards de produto, alterando a direção e o display, para aparecer em coluna*/
+    #cards-produto {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        padding: 84px 20px 40px 20px;
+        gap: 14px;
+    }
+    /*Modifica o tamanho de cada card */
+    #card-oferecemos,
+    #card-tecnologia-utilizada,
+    #card-inovacao,
+    #card-solucao,
+    #card-planos-futuros,
+    #card-dados-mercado {
+        position: relative;
+        width: 100%;
+        height: auto;
+        min-height: auto;
+        padding: 14px 16px;
+        display: grid;
+        grid-template-columns: 44px 1fr;
+        grid-template-rows: auto auto;
+        column-gap: 12px;
+        row-gap: 4px;
+        align-items: start;
+        transform: none !important;
+        background-color: rgba(255, 255, 255, 0.08) !important;
+    }
+    /*Modifica os ícones da landing page, para diminuir o tamanho*/
+    .icone-cards-lp {
+        grid-column: 1;
+        grid-row: 1 / span 2;
+        align-self: center;
+        width: 32px !important;
+        margin: 0;
+        padding: 0;
+        opacity: 1 !important;
+        filter: brightness(0) invert(1) !important;
+        animation: none !important;
+    }
+    /*Modfica a posição de cada título de cada card*/
+    #titulo-oferecemos,
+    #titulo-tecnologia,
+    #titulo-inovacao,
+    #titulo-solucao,
+    #titulo-planos-futuros,
+    #titulo-mercado {
+        position: static !important;
+        grid-column: 2;
+        grid-row: 1;
+        opacity: 1 !important;
+        filter: none !important;
+        animation: none !important;
+        height: auto !important;
+        padding: 0;
+        margin: 0;
+        font-size: 1rem;
+    }
+
+    /*Modifica o texto de cada card*/
+    #texto-oferecemos,
+    #texto-tecnologia,
+    #texto-inovacao,
+    #texto-solucao,
+    #texto-planos-futuros,
+    #texto-dados {
+        position: static !important;
+        grid-column: 2;
+        grid-row: 2;
+        opacity: 1 !important;
+        top: auto;
+        left: auto;
+        right: auto;
+        padding: 0;
+        margin: 0;
+    }
+    /*Modifica o texto(p) de cada card, no caso o tamanho*/
+    #texto-oferecemos p,
+    #texto-tecnologia p,
+    #texto-inovacao p,
+    #texto-solucao p,
+    #texto-planos-futuros p,
+    #texto-dados p {
+        font-size: 0.8rem;
+        line-height: 1.4;
+    }
+    /*Modifica o tamanho para cada card*/
+    #texto-oferecemos h2,
+    #texto-tecnologia h2,
+    #texto-inovacao h2,
+    #texto-solucao h2,
+    #texto-planos-futuros h2,
+    #texto-dados h2 {
+        font-size: 0.95rem;
+    }
+
+    #img-solucao {
+        display: none;
+    }
+
+    .prod {
+        font-size: medium;
+    }
+
+    /* ---------- Sobre nós ---------- */
+    /*Altera o espaçamento e altura*/
+    #sobre-nos-section {
+        height: auto;
+        padding: 80px 0 40px 0;
+    }
+    /*Altera a forma que aparece em formato de coluna e espaçamento*/
+    .sobre-nos-container {
+        flex-direction: column;
+        margin: 20px;
+        margin-top: 20px;
+        padding: 20px;
+    }
+    /*Reduz o tamanho da imagem do sobre-nós*/
+    #img-sobre img {
+        max-width: 100%;
+        width: 100%;
+        height: 220px;
+        margin: 0 0 15px 0;
+    }
+    /*Altera o tamanho do texto e do título*/
+    #texto-sobre {
+        margin: 0;
+        font-size: 0.95rem;
+    }
+
+    #titulo-sobre {
+        font-size: 1.8rem;
+    }
+
+    /* ---------- Contato ---------- */
+
+    #contato-section {
+        height: auto;
+        padding: 40px 0;
+    }
+    /*Altera o contato para ser em coluna e muda o espaçamento*/
+    #contato-container {
+        flex-direction: column !important;
+        gap: 20px !important;
+        padding: 0 20px;
+    }
+    /*Reduz o tamanho da imagem*/
+    #img-contato {
+        max-width: 55% !important;
+        width: 55% !important;
+        margin: 0 auto;
+    }
+    /*Modifica os campos para pegarem toda a largura da tela*/
+    #campos-contato {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    /* ---------- Rodapé ---------- */
+    /*Tornar em coluna*/
+    #rodape-container {
+        flex-direction: column;
+        gap: 30px;
+        padding: 30px 20px 0 20px;
+    }
+    /*Muda o tamanho damletra e espaçamento*/
+    #vetallis-rodape {
+        font-size: 3.2rem;
+        letter-spacing: 6px;
+        padding: 20px 10px;
+        word-break: break-word;
+    }
+}
+
+
+#notificacoes-badge {
+    top: -6px;
+    right: -6px;
+    font-size: 0.65rem;
+    padding: 3px 6px;
+    z-index: 10;
+}
+
+/* ===== Estilo do modal de notificações, no padrão dark/glass do site ===== */
+
+/*Isso vai estilizar o modal de notificação, por meio da cor de fundo(background),cor das letras(color) e pela borda*/
+#notificacoes .modal-content {
+    background: #498C79;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #e6efe9;
+}
+
+#notificacoes .modal-header,
+#notificacoes .modal-footer {
+    border-color: rgba(255, 255, 255, 0.253);
+}
+
+/*Modifica o tamanho do modal para alcançar o máximo de 400px*/
+#notificacoes .modal-body {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+/*Modifica cada notificação que aparece, ou seja , a borda lateral que aparece, 
+os espaçamentos e como os itens vão ser distribuidos */
+.notificacao-item {
+    border-left: 3px solid #f0b429;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+/*Modifica a cor e o tamanho da escrita da notificação, no caso a parte referente aos itens e datas do mesmo*/
+.notificacao-item span {
+    color: #e6efe9;
+    font-size: 0.9rem;
+}
+
+/*Modifica a cor, tamanho e como aparece a data em que notificação foi criada*/
+.notificacao-item small {
+    color: rgba(230, 239, 233, 0.788);
+    white-space: nowrap;
+    font-size: 0.9rem;
+}
+/*Modifica a cor da escrita referente a falta de notificações*/
+.notificacoes-vazio {
+    color: rgba(230, 239, 233, 0.6);
+}
+
+/*Define o espaço que se encontrar o form de esqueci sua senha*/
+.otp-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    font-family: Arial, sans-serif;
+}
+
+.otp-inputs {
+    display: flex;
+    gap: 12px;
+}
+/*Defini o espaço que vai ser os número do código de recuperar senha vão ficar */
+.otp-box {
+    width: 50px;
+    height: 55px;
+    border: 2px solid #b2dfdb;
+    border-radius: 12px;
+    background-color: #ebebeb;
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    color: #333;
+    outline: none;
+    transition: all 0.2s ease-in-out;
+}
+
+.otp-box:focus {
+    border-color: #80cbd3;
+    background-color: #ffffff;
+    box-shadow: 0 0 6px rgba(128, 203, 211, 0.4);
+}
+/*Define cor e como vai ficar o link de reenviar o código */
+.resend-link {
+    font-size: 13px;
+    color: #555;
+    text-decoration: none;
+    margin-top: 4px;
+}
+
+.resend-link:hover {
+    text-decoration: underline;
+    color: #000;
+}
+/*Define o tamanho do formulário*/
+#form-recuperar-senha{
+    max-width: 400px;
+}
+
+/*-----------Tela Relatório----------*/
+
+
+#texto_inicial{
+    color: white;
+    padding: 10px;
+}
+/*Defina como vai se parecer a tabela */
+#tabela{
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 15px;
+    background: #1c9e8677;
+    padding: 5px;
+    height: 160px;
+    width: 317px;
+}
+/*Define o tamanho do card de animal e que o possui dentro dele*/
+#card-animal{
+    width: 80px;
+    height: 80px;
+    flex-shrink: 0;
+}
+
+#icone-animal{
+    font-size: 3rem;
+}
+
+#espaco-animal{
+    margin-left: 35px;
+}
+
+#tamanho-fonte-animal{
+    font-size: 3rem;
+}
+
+
+
+/*Define o card de produtos e o que vai ficar dentro dele*/
+#card-produto{
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 15px;
+    background:#1c9e8677;
+    padding: 5px;
+    height: 160px;
+    width: 317px;
+}
+
+#detalhe-produto{
+    width: 80px;
+    height: 80px;
+    flex-shrink: 0;
+}
+
+#icone-produto{
+    font-size: 3rem;
+}
+
+#espaco-produto{
+    margin-left: 35px;
+}
+
+#tamanho-fonte-produto{
+    font-size: 3rem;
+}
+
+
+
+/*Define o como vai ser o card de produtos vencidos e o que possui dentro dele*/
+#card-pvencido{
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 15px;
+    background: #1c9e8677;
+    padding: 5px;
+    height: 160px;
+    width: 317px;
+}
+
+#detalhe-pvencido{
+    width: 80px;
+    height: 80px;
+    flex-shrink: 0;
+}
+
+#icone-pvencido{
+    font-size: 3rem;
+}
+
+#espaco-pvencido{
+    margin-left: 35px;
+}
+
+#tamanho-fonte-pvencido{
+    font-size: 3rem;
+}
+
+
+/*Define o card de sensor e o que tem dentro dele */
+#card-sensor{
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 15px;
+    background: #1c9e8677;
+    padding: 5px;
+    height: 160px;
+    width: 317px;
+}
+
+
+#detalhe-sensor{
+    width: 80px;
+    height: 80px;
+    flex-shrink: 0;
+}
+
+#icone-sensor{
+    font-size: 3rem;
+}
+
+#espaco-sensor{
+    margin-left: 35px;
+}
+
+#tamanho-fonte-sensor{
+    font-size: 3rem;
+}
+
+
+/*Define o filtro com curvatura e tamanho*/
+#filtro-e-tabela{
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 5px;
+    min-height: 450px;
+}
+
+#filtro-quantidade{
+    width: 150px;
+}
+
+/*Define o tamanho dos textos presentes*/
+#tabela-texto-produto{
+    width: 39%;
+}
+
+#tabela-texto-categoria{
+    width: 38%;
+}
+
+#tabela-texto-quantidade{
+    width: 12%;
+}
+/*Define a margin do botão*/
+#botao_cadastro_produto{
+    margin-top: 5.5%;
+}
+/*Define a altura*/
+#imagem_cadastro_produto{
+    height: 400px;
+}
+
+/*Botão de animal*/
+.div-com-csv{
+    width: 100%;
+}
+
+
+.titulo-csv {
+    display: none;
+    height: 50px;
+    align-items: center;
+
+}
+.titulo-csv2 {
+    background-color: rgba(255, 255, 255, 0.08);
+    text-decoration: none;
+    border: none;
+    height: 40%;
+    align-items: center;
+
+}

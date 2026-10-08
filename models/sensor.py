@@ -1,13 +1,14 @@
-from core.crud_base import Crud_base
-from core.manipular import Manipular
-import base64
+from core.crud_base import Crud_base #importação
+from core.manipular import Manipular #importação
+import base64 #importação
 
 class Sensor(Crud_base):
-    tabela = "sensor"
-    pk = "sensor_id"
-    fields = ["sensor_nome", "sensor_descricao", "sensor_n_serie", "sensor_modelo", "sensor_voltagem", "sensor_tipo_conexao", "sensor_localizacao", "sensor_imagem", "imagem_blob",  "imagem_tipo"]
+    tabela = "sensor" #nome da tabela
+    pk = "sensor_id" #chave primaria da tabela
 
-    def __init__(self, sensor_nome, sensor_descricao, sensor_n_serie, sensor_modelo, sensor_voltagem, sensor_tipo_conexao, sensor_localizacao, sensor_imagem, imagem_tipo, imagem_blob):
+    fields = ["sensor_nome", "sensor_descricao", "sensor_n_serie", "sensor_modelo", "sensor_voltagem", "sensor_tipo_conexao", "sensor_localizacao", "sensor_imagem", "imagem_blob",  "imagem_tipo"] #campos que temos na tela
+
+    def __init__(self, sensor_nome, sensor_descricao, sensor_n_serie, sensor_modelo, sensor_voltagem, sensor_tipo_conexao, sensor_localizacao, sensor_imagem, imagem_tipo, imagem_blob): #definição de campos
         self.sensor_nome = sensor_nome
         self.sensor_descricao = sensor_descricao
         self.sensor_n_serie = sensor_n_serie
@@ -19,83 +20,87 @@ class Sensor(Crud_base):
         self.imagem_tipo = imagem_tipo
         self.imagem_blob = imagem_blob
 
-    def validar_sensor(self):
+    def validar_sensor(self): #executa as validações e retorna o erro
         erros = [
-            Manipular.validar_vazio(self.sensor_nome, "nome"),
-            Manipular.validar_vazio(self.sensor_descricao, "descrição"),
-            Manipular.validar_vazio(self.sensor_n_serie, "Numero de serie"),
-            Manipular.validar_vazio(self.sensor_modelo, "Modelo"),
-            Manipular.validar_vazio(self.sensor_voltagem, "voltagem"),
-            Manipular.validar_vazio(self.sensor_tipo_conexao, "Tipo conexão"),
-            Manipular.validar_vazio(self.sensor_localizacao, "Localização")
-        ]     
+            Manipular.validar_vazio(self.sensor_nome, "nome"), #campo não pode ser vazio
+            Manipular.validar_vazio(self.sensor_descricao, "descrição"), #campo não pode ser vazio
+            Manipular.validar_vazio(self.sensor_n_serie, "Numero de serie"), #campo não pode ser vazio
+            Manipular.validar_vazio(self.sensor_modelo, "Modelo"), #campo não pode ser vazio
+            Manipular.validar_vazio(self.sensor_voltagem, "voltagem"), #campo não pode ser vazio
+            Manipular.validar_vazio(self.sensor_tipo_conexao, "Tipo conexão"), #campo não pode ser vazio
+            Manipular.validar_vazio(self.sensor_localizacao, "Localização"), #campo não pode ser vazio
+            Manipular.validar_numero(self.sensor_n_serie, "Numero de serie") #o campo nuemro de serie precisa tem numero
+        ]  #chamando as validações que serão usadas nessa tela, elas veem do manipular.py   
             
-        return [ erro for erro in erros if erro]
+        return [ erro for erro in erros if erro] #retorna o erro
 
-    def gravar_sensor(self):
-        sensor = self.gravar()
+    def gravar_sensor(self): #def para gravar sensor no banco
+        sensor = self.gravar() 
 
         if not sensor:
             raise ValueError("Erro ao cadastrar sensor")
 
-        return "Sensor cadastrado com sucesso"
+        return "Sensor cadastrado com sucesso" #mensagem de retorno
 
-    @classmethod
-    def deletar_sensor(cls, id):
-        sensor = cls.buscar_por_id(id)
-
-        if not sensor:
-            raise ValueError("Sensor não encontrado")
-        cls.deletar(id)
-        return "Sensor deletado com sucesso" 
-
-    def atualizar_sensor(self, id):
-        sensor = self.buscar_por_id(id)
+    @classmethod 
+    def deletar_sensor(cls, id): #deletar sensor 
+        sensor = cls.buscar_por_id(id) #busca sesnor por id
 
         if not sensor:
-            raise ValueError("Sensor não encontrado")
+            raise ValueError("Sensor não encontrado") #se o sensor não for encontrado, ele retorna a mensagem
+        cls.deletar(id) #deleta sensor se encontrar
+        return "Sensor deletado com sucesso" #se encontrar deleta e retorna essa mensagem
 
-        self.atualizar(id)
-        return "Sensor atualizado com sucesso!"
 
-    @classmethod
-    def buscar_sensor_id(cls, id):
-        sensor = cls.buscar_por_id(id)
+    def atualizar_sensor(self, id): #def para salvar atualização do sensor
+        sensor = self.buscar_por_id(id) #busca sensor por id
 
         if not sensor:
-            raise ValueError("Sensor não encontrado")
+            raise ValueError("Sensor não encontrado") #se o sensor não for encontrado, ele retorna a mensagem 
+
+        self.atualizar(id) #atualiza sensor se encontrar
+        return "Sensor atualizado com sucesso!" #mensagem de retorno se encontrar
+
+    @classmethod #buscando po id
+    def buscar_sensor_id(cls, id): 
+        sensor = cls.buscar_por_id(id) #busca sensor por id
+
+        if not sensor:
+            raise ValueError("Sensor não encontrado") #se não encontrar o sensor, retorna essa mensagem
             
-        sid = sensor["sensor_id"]      
+        sid = sensor["sensor_id"]   #armazena o id 
         del sensor["sensor_id"]        
-        obj = Sensor(**sensor)         
-        obj.sensor_id = sid
-        if obj.imagem_blob:
+        obj = Sensor(**sensor)   #transforma o dicionaria em um objeto sensor      
+        obj.sensor_id = sid #devolve o id ao objeto
+        
+        if obj.imagem_blob: #converte a imagem para base64
             obj.imagem_base64 = base64.b64encode(obj.imagem_blob).decode("utf-8")
         else:
-            obj.imagem_base64 = ""
+            obj.imagem_base64 = "" #sem imagem
         return obj
     
-    @classmethod
+    @classmethod #buscando imagem para sensor
     def buscar_sensores(cls, order_by=pk):
-        sensores = cls.buscar_tudo(order_by)
+        sensores = cls.buscar_tudo(order_by) #busca todos os sensores
 
         if not sensores:
             raise ValueError("Sensor não encontrato")
         
-        for sensor in sensores:
-            sensor["imagem_base64"] = None
+        for sensor in sensores: #percorre cada sensor e prepara imagem 
+            sensor["imagem_base64"] = None 
             if sensor.get("imagem_blob"):
                 sensor["imagem_base64"] = base64.b64encode(sensor["imagem_blob"]).decode("utf-8")
-        
+            else:
+                sensor["imagem_base64"] = None #sensor sem foto
         return sensores
     
-    @classmethod
+    @classmethod #analisa os dados cadastrados, com o banco
     def contar_sensores(cls, order_by="sensor_id"):
-        sensor = cls.buscar_tudo(order_by)
+        sensor = cls.buscar_tudo(order_by) #busca todos os sensores
         if not sensor:
             raise ValueError("Sensor não encontrato")
         
         sensores = 0
-        for i in sensor:
+        for i in sensor: #conta os sensores para exibi-los na tela de relatório
             sensores = sensores + 1
         return sensores

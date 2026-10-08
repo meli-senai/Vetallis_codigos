@@ -1,15 +1,20 @@
 {% extends 'base.html'%}
 {%block conteudo%}
 
+<!-- Fora da lista ordenada há a ancoragem de voltar para outras telas além da titulagem da tela como tela de Pedidos -->
 <div class="d-flex justify-content-start">
-    <a href="" class="bi bi-arrow-bar-left text-white" style="text-decoration: none;height: 40px;">Voltar</a>
+    <a href="{{url_for('pedidos_cadastrados')}}" class="bi bi-arrow-bar-left texto-a mb-3">Voltar</a>
 </div>
-<h3 class="text-start" style="color: white; padding:20px;padding-left: 0; border-bottom:solid 1px #fff; width: 1300px;">
+<h3 class="text-start titulo-h3 mb-3">
     Pedidos</h3>
-<ul class="nav nav-tabs mb-3" id="tipoPedido" role="tablist">
+
+
+    <!-- Container que cria a barra de abas do Bootstrap -->
+<ul class="nav nav-tabs mb-3 w-100" id="tipoPedido" role="tablist">
     <li class="nav-item" role="presentation">
-        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#entrada" type="button"
-            style="color: black;" onclick="
+        <!-- Botão que exibe o conteúdo da div #entrada -->
+        <button class="nav-link active text-black" data-bs-toggle="tab" data-bs-target="#entrada" type="button "
+            onclick="
                 this.style.color='#074040';
                 document.querySelector('[data-bs-target=\'#entrada\']').style.color='black';
             ">
@@ -17,8 +22,7 @@
         </button>
     </li>
     <li class="nav-item" role="presentation">
-        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#saida" type="button" style="color: black;"
-            onclick="
+        <button class="nav-link text-black" data-bs-toggle="tab" data-bs-target="#saida" type="button" onclick="
                 this.style.color='#074040';
                 document.querySelector('[data-bs-target=\'#saida\']').style.color='black';
             ">
@@ -27,40 +31,43 @@
     </li>
 </ul>
 
-<div style="padding: 20px; padding-left: 0;">
+<!-- Div feita para colocar o html das duas abas, mesmo que haja a possibilidade de selecionar qual aba (entrada ou saída) será utilizada -->
+<div class="w-100">
     <div class="tab-content">
 
-        <!-- ABA ENTRADA -->
-        <div class="tab-pane fade show active" id="entrada">
-            <form method="POST" action="{{url_for('pedido_salvar')}}" style="width: 100%;">
+        <!-- ABA ENTRADA- html da aba da parte de pedido de entrada com o método POST já que é um "cadastro" de um novo pedido-->
+        <div class="tab-pane fade show active w-100" id="entrada">
+            <!-- formulário que usa o método POST com a função -->
+            <form method="POST" action="{{url_for('pedido_salvar')}}">
                 <input type="hidden" name="tipo_movimentacao" value="entrada">
                 <input type="hidden" name="pedido_entrada_status" value="Concluido">
-                <div class="me-3" style="width: 100%;">
-                    <div class="d-flex" style="width: 100%;">
+                <div class="me-3 w-100">
+                    <div class="d-flex w-100 gap-3">
 
-                        <div class="mb-4" style="max-width: 700px; width: 100%;">
-                            <input type="text" name="pedido_entrada_nome" class="form-control" placeholder="Nome:">
+                        <div class="mb-4 w-100">
+                            <input type="text" name="pedido_entrada_nome" class="form-control" placeholder="Nome:" required>
                         </div>
-                        <div class="mb-4 ms-4" style="max-width: 700px; width: 100%;">
+                        <div class="mb-4 w-100">
                             <select name="fornecedor_fornecedor_id" class="form-select">
-                                <option value=""> Selecione um fornecedor</option>
+                                <option value="" > Selecione um fornecedor</option>
                                 {% for f in fornecedor%}
-                                <option value="{{ f.fornecedor_id }}" style="color: black;">{{ f.fornecedor_nome }}
+                                <option value="{{ f.fornecedor_id }}" class="text-black">{{ f.fornecedor_nome }}
                                 </option>
                                 {% endfor %}
                             </select>
                         </div>
+                        <div class="mb-4 w-100">
+                            <input type="date" name="pedido_entrada_data" class="form-control" placeholder="Data:" required>
+                        </div>
                     </div>
-                    <div class="mb-4" style="max-width: 635px;">
-                        <input type="text" name="pedido_entrada_data" class="form-control" placeholder="Data:">
-                    </div>
+
                 </div>
 
-                <div class="d-flex justify-content-between"
-                    style="padding:20px;padding-left: 0; border-bottom:solid 1px #fff; width: 1300px;">
-                    <h3 class="text-start" style="color: white;">Item do Pedido</h3>
-                    <button type="button" class="btn btn-success btn-adicionar-item" data-template="templateItemEntrada"
-                        data-corpo="corpoItensEntrada">
+                <div class="d-flex justify-content-between p-2 border-bottom">
+                    <h3 class="text-start text-white">Item do Pedido</h3>
+                    <button type="button"
+                        class="btn  btn-adicionar-item background-verde-medio text-white border-radius-menor"
+                        data-template="templateItemEntrada" data-corpo="corpoItensEntrada">
                         Adicionar Item
                     </button>
                 </div>
@@ -69,90 +76,93 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th class="text-white text-center" style="width: 30%;">Produto</th>
-                                <th class="text-white text-center" style="width: 25%;">Lote</th>
-                                <th class="text-white text-center" style="width: 15%;">Quantidade</th>
-                                <th class="text-white text-center" style="width: 15%;">Valor Unitário</th>
-                                <th class="text-white text-center" style="width: 10%;">Data de validade</th>
-                                <th class="text-white text-center" style="width: 5%;">Ação</th>
+                                <th class="text-white text-center w-25">Produto</th>
+                                <th class="text-white text-center w-25">Lote</th>
+                                <th class="text-white text-center w-25">Quantidade</th>
+                                <th class="text-white text-center w-25">Valor Unitário</th>
+                                <th class="text-white text-center w-25">Validade</th>
+                                <th class="text-white text-center w-25">Ação</th>
                             </tr>
                         </thead>
                         <tbody id="corpoItensEntrada"></tbody>
-                        </tbody>
                     </table>
                 </div>
 
+
+                <!-- Template separada para a parte de itens do pedido de entrada , com selects ara seleção de produtos ja cadastrados -->
                 <template id="templateItemEntrada">
                     <tr>
                         <td>
-                            <select name="item_pedido_entrada_nome" class="form-select" name="produto">
+                            <select name="produto_produto_id" class="form-select">
                                 <option value=""> Selecione o produto</option>
                                 {% for p in produtos%}
-                                <option value="{{ p.produto_id }}, {{p.produto_nome}}" style="color: black;">{{ p.produto_nome }}
+                                <option value="{{ p.produto_id }}" class="text-black">{{
+                                    p.produto_nome }}
                                 </option>
                                 {% endfor %}
                             </select>
                         </td>
                         <td class="text-center">
                             <input type="text" name="item_pedido_entrada_lote"
-                                class="bg-transparent text-white border-0 form w-100 text-center" placeholder="Lote">
+                                class=" form-control border-0 form w-100 text-center" placeholder="Lote">
                         </td>
                         <td class="text-center">
                             <input type="number" name="item_pedido_entrada_quantidade"
-                                class="bg-transparent text-white border-0 form w-100 text-center" placeholder="0"
-                                min="0.01" step="0.01">
+                                class="form-control border-0 form w-100 text-center" placeholder="0" min="0" step="1">
                         </td>
                         <td class="text-center">
                             <input type="number" name="item_pedido_entrada_valor_unitario"
-                                class="bg-transparent text-white border-0 form w-100 text-center" placeholder="0.00"
-                                min="0" step="0.01">
+                                class="form-control border-0 form w-100 text-center" placeholder="0.0" min="0"
+                                step="0.1">
                         </td>
-                        <td class="text-center"><input type="text" name="item_pedido_entrada_validade"
-                                class="bg-transparent text-white border-0 form w-100 text-center"></td>
-                        <td class="text-center"><button type="button" class="btn btn-sm btn-danger"
+                        <td class="text-center"><input type="date" name="item_pedido_entrada_validade"
+                                class="form-control border-0 form w-100 text-center"></td>
+                        <td class="text-center"><button role="img" title="Botão de excluir item" type="button" class="btn btn-sm btn-danger"
                                 onclick="removerLinha(this)">X</button></td>
                     </tr>
                 </template>
 
                 <div class="mt-3">
-                    <button class="btn btn-login w-100 text-white ms-auto"
-                        style="background: #03c356; border-radius: 15px; min-width: 400px; "
+                    <button
+                        class="btn btn-login w-100 text-white ms-auto background-verde-medio border-radius-menor w-100"
                         type="submit">Enviar</button>
                 </div>
             </form>
         </div>
 
-        <!-- ABA SAÍDA -->
+        <!-- ABA saída- html da aba da parte de pedido de entrada com o método POST já que é um "cadastro" de um novo pedido-->
         <div class="tab-pane fade" id="saida">
-            <form method="POST" action="{{url_for('pedido_salvar')}}" style="width: 100%;">
+            <!-- formulário que usa o método POST com a função -->
+            <form method="POST" action="{{url_for('pedido_salvar')}}" class="w-100">
                 <input type="hidden" name="tipo_movimentacao" value="saida">
                 <input type="hidden" name="pedido_saida_status" value="Concluido">
 
-                <div class="me-3" style="width: 100%;">
-                    <div class="d-flex" style="width: 100%;">
-                        <div class="mb-4" style="max-width: 700px; width: 100%;">
+                <div class="me-3 w-100">
+                    <div class="d-flex gap-3 w-100">
+                        <div class="mb-4 w-100">
                             <input type="text" name="pedido_saida_nome" class="form-control" placeholder="Nome:">
                         </div>
-                        <div class="mb-4 ms-4" style="max-width: 700px; width: 100%;">
+                        <div class="mb-4 w-100">
                             <select name="animal_animal_id" class="form-select">
                                 <option value=""> Selecione um animal</option>
                                 {% for f in animal%}
-                                <option value="{{ f.animal_id }}" style="color: black;">{{ f.animal_identificacao }}
+                                <option value="{{ f.animal_id }}" class="text-black">{{ f.animal_identificacao }}
                                 </option>
                                 {% endfor %}
                             </select>
                         </div>
+                        <div class="mb-4 w-100">
+                            <input type="date" name="pedido_saida_data" class="form-control" placeholder="Data:">
+                        </div>
                     </div>
-                    <div class="mb-4" style="max-width: 635px;">
-                        <input type="text" name="pedido_saida_data" class="form-control" placeholder="Data:">
-                    </div>
+
                 </div>
 
-                <div class="d-flex justify-content-between"
-                    style="padding:20px;padding-left: 0; border-bottom:solid 1px #fff; width: 1300px;">
-                    <h3 class="text-start" style="color: white;">Item do Pedido</h3>
-                    <button type="button" class="btn btn-success btn-adicionar-item" data-template="templateItemSaida"
-                        data-corpo="corpoItensSaida">
+                <div class="d-flex justify-content-between p-2 w-100 border-bottom">
+                    <h3 class="text-start text-white">Item do Pedido</h3>
+                    <button type="button"
+                        class="btn background-verde-medio border-radius-menor text-white btn-adicionar-item"
+                        data-template="templateItemSaida" data-corpo="corpoItensSaida">
                         Adicionar Item
                     </button>
                 </div>
@@ -161,10 +171,10 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th class="text-white text-center" style="width: 30%;">Produto</th>
-                                <th class="text-white text-center" style="width: 25%;">Lote</th>
-                                <th class="text-white text-center" style="width: 15%;">Quantidade</th>
-                                <th class="text-white" style="width: 5%;" class="text-center">Ação</th>
+                                <th class="text-white text-center w-50">Produto</th>
+                                <th class="text-white text-center w-25">Lote</th>
+                                <th class="text-white text-center w-25">Quantidade</th>
+                                <th class="text-white text-center w-100">Ação</th>
                             </tr>
                         </thead>
                         <tbody id="corpoItensSaida">
@@ -172,14 +182,14 @@
                     </table>
                 </div>
 
+                <!-- Template separada para a parte de itens do pedido de saída , com selects ara seleção de produtos ja cadastrados -->
                 <template id="templateItemSaida">
                     <tr>
                         <td>
-                            <select name="item_pedido_saida_nome" class="form-select">
+                            <select name="produto_produto_id" class="form-select">
                                 <option value=""> Selecione o produto</option>
                                 {% for p in produtos%}
-                                <option value="{{ p.produto_id }}" style="color: black;">{{ p.produto_nome }}
-                                </option>
+                                <option value="{{ p.produto_id }}" class="text-black">{{ p.produto_nome }}</option>
                                 {% endfor %}
                             </select>
                         </td>
@@ -187,30 +197,27 @@
                             <select name="item_pedido_saida_lote" class="form-select">
                                 <option value=""> Selecione um lote</option>
                                 {% for i in lote%}
-                                    <option value="{{ i.item_pedido_entrada_id }}" style="color: black;">{{
-                                        i.item_pedido_entrada_lote }}
-                                    </option>
+                                <option value="{{ i.item_pedido_entrada_id }}" class="text-black">{{
+                                    i.item_pedido_entrada_lote }}
+                                </option>
                                 {% endfor %}
                             </select>
                         </td>
                         <td><input type="number" name="item_pedido_saida_quantidade"
-                                class="bg-transparent text-white border-0 form w-100 text-center" placeholder="0"
-                                min="0.01" step="0.01">
+                                class="form-control border-0 form w-100 text-center" placeholder="0" min="1" step="1">
+
                         </td>
                         <td class="text-center">
-                            <button type="button" class="btn btn-sm btn-danger" onclick="removerLinha(this)">X</button>
+                            <button role="img" title="Botão de excluir item" type="button" class="btn btn-sm btn-danger" onclick="removerLinha(this)">X</button>
                         </td>
                     </tr>
                 </template>
                 <style>
-                    .form::placeholder {
-                        color: #fff;
-                    }
+
                 </style>
 
                 <div class="mt-3">
-                    <button class="btn btn-login w-100 text-white ms-auto"
-                        style="background: #03c356; border-radius: 15px; min-width: 400px; "
+                    <button class="btn btn-login text-white ms-auto background-verde-medio border-radius-menor w-100"
                         type="submit">Enviar</button>
                 </div>
             </form>
@@ -219,6 +226,7 @@
     </div>
 </div>
 <script>
+    // Clona e adiciona um novo item a partir de um <template> HTML
     function adicionarItem(templateId, corpoId) {
         const template = document.getElementById(templateId);
         const corpo = document.getElementById(corpoId);
@@ -226,14 +234,18 @@
         corpo.appendChild(novaLinha);
     }
 
+    // Remove a linha (<tr>) correspondente ao botão de exclusão clicado
     function removerLinha(botao) {
         botao.closest("tr").remove();
     }
 
+    // Inicializa o comportamento da página após o carregamento completo do HTML
     document.addEventListener("DOMContentLoaded", function () {
+        // Insere automaticamente a primeira linha padrão tanto na Entrada quanto na Saída
         adicionarItem("templateItemEntrada", "corpoItensEntrada");
         adicionarItem("templateItemSaida", "corpoItensSaida");
 
+        // Vincula o evento de clique em todos os botões de adicionar itens da tela
         document.querySelectorAll(".btn-adicionar-item").forEach(function (botao) {
             botao.addEventListener("click", function () {
                 const templateId = this.dataset.template;

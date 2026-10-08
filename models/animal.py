@@ -1,6 +1,7 @@
 # ===== Importar as classes =====#
 from core.crud_base import Crud_base
 from core.manipular import Manipular
+from core.conectar import Database
 
 # ===== Cria a classe Animal ===#
 class Animal(Crud_base):
@@ -8,24 +9,38 @@ class Animal(Crud_base):
     # Define a tabela e os campos do banco
     tabela = "animal"
     pk = "animal_id"
-    fields = ["animal_especie","animal_sexo", "animal_raca", "animal_identificacao", "animal_idade"]
+    fields = ["animal_especie","animal_sexo", "animal_raca", "animal_identificacao", "animal_idade", "animal_observacao", "animal_peso"]
 
     # Define os atributos 
-    def __init__(self, animal_especie, animal_sexo, animal_raca, animal_identificacao, animal_idade):
+    def __init__(self, animal_especie, animal_sexo, animal_raca, animal_identificacao, animal_idade, animal_observacao, animal_peso):
         self.animal_especie = animal_especie
         self.animal_sexo = animal_sexo
         self.animal_raca = animal_raca
         self.animal_identificacao = animal_identificacao
         self.animal_idade = animal_idade
+        self.animal_observacao = animal_observacao
+        self.animal_peso = animal_peso
+        
+
 
     # Faz a validação dos dados para a gravação com o banco
     def validar_animal(self):
         erros = [
             Manipular.validar_vazio(self.animal_especie, "especie"), # verifica se os dados estão vazio
+            Manipular.validar_letra(self.animal_especie, "especie"), # verifica se os dados não estão com número
+            Manipular.validar_not_caracter(self.animal_especie, "especie"),# verifica se os dados estão aceitando caractere especial
+            Manipular.validar_min_caracter(self.animal_especie, "especie"),# verifica se os dados estão aceitando menos que 3 caracteres
             Manipular.validar_vazio(self.animal_sexo, "sexo"), # verifica se os dados estão vazio
             Manipular.validar_vazio(self.animal_raca, "raca"), # verifica se os dados estão vazio
+            Manipular.validar_not_caracter(self.animal_raca, "raca"),# verifica se os dados estão aceitando caractere especial
+            Manipular.validar_min_caracter(self.animal_raca, "raca"),# verifica se os dados estão aceitando menos que 3 caracteres
             Manipular.validar_vazio(self.animal_identificacao, "identificacao"), # verifica se os dados estão vazio
+            Manipular.validar_not_caracter(self.animal_identificacao, "identificacao"),# verifica se os dados estão aceitando caractere especial
             Manipular.validar_vazio(self.animal_idade, "idade"), # verifica se os dados estão vazio
+            Manipular.validar_numero(self.animal_idade, "idade"), # verifica se os dados estão com número
+            Manipular.validar_vazio(self.animal_observacao, "observacao"), # verifica se os dados estão vazio
+            Manipular.validar_vazio(self.animal_peso, "peso"), # verifica se os dados estão vazio
+            Manipular.validar_numero(self.animal_peso, "peso"), # verifica se os dados estão com número
         ]
 
         return [ erro for erro in erros if erro] # Retorna  os erros 
@@ -40,14 +55,38 @@ class Animal(Crud_base):
         return "Animal Cadastrado com sucesso!" # Retorna mensagem de sucesso
 
     # ===== Método de deletar dados dos animais ===== #
-    def deletar_animal(self, id):
-        animal = self.buscar_por_id(id) # chama o método de buscar por id do Crud_base
+    @classmethod
+    def deletar_animal(cls, id):
+        animal = cls.buscar_por_id(id)
+        if not animal:
+            raise ValueError("Animal não encontrado")
+        
+        conexao = Database.connect()
+        cursor = conexao.cursor()
+        try:
+            query_deletar_saidas = """
+                DELETE FROM pedido_saida 
+                WHERE animal_animal_id IN (
+                    SELECT animal_id FROM animal WHERE animal_animal_id = %s
+                )
+            """
+            cursor.execute(query_deletar_saidas, (id,))
 
-        if not animal: # Verifica se os dados foram encontrados 
-            raise ValueError("Animal não encontrado.")
-
-        self.deletar(id) # Chama o método deletar da classe Crud_base
-        return "Animal deletado com sucesso!" # retorna se os dados foram deletados
+            query_deletar_pai = "DELETE FROM animal WHERE animal_id = %s"
+            cursor.execute(query_deletar_pai, (id,))
+            
+            conexao.commit()
+            
+        except Exception as e:
+            conexao.rollback()
+            raise e 
+            
+        finally:
+            cursor.close()
+            conexao.close()
+        
+        cls.deletar(id)
+        return "Animal deletado com sucesso"
 
     # ====== Método para atualizar os dados dos animais ===== #
     def atualizar_animal(self, id):
@@ -60,20 +99,41 @@ class Animal(Crud_base):
         return "Animal autualizado com sucesso!" # retorna se os dados foram atualizados
 
     # ===== Método para buscar animal pelo id ===== #
-    def buscar_animal_por_id(self, id):
-        animal = self.buscar_por_id(id) # chama o método para de buscar por id do Crud_base
+    @classmethod
+    def buscar_animal_por_id(self,animal_id):
+        animal = self.buscar_por_id(animal_id) # chama o método para de buscar por id do Crud_base
 
         if not animal: # verifica se foi encontrado
             raise ValueError("Animal não encontrado.") # retorna se tiver erro
 
-        return Animal(**animal)# retorna os dados encontrado
-    
+        return animal # retorna os dados encontrado
+
 
     @classmethod
-    def buscar_animal(cls, order_by=pk):
+    def buscar_animal(cls, order_by="animal_id"):
+            animal = cls.buscar_tudo(order_by) # chama o método para de buscar por id do Crud_base
+    
+            if not animal: # verifica se foi encontrado
+                raise ValueError("Animal não encontrado.") # retorna se tiver erro
+    
+            return animal
+
+    @classmethod
+    def contar_animal(cls, order_by=pk):
         animal = cls.buscar_tudo(order_by) # chama o método para de buscar por id do Crud_base
 
         if not animal: # verifica se foi encontrado
-            raise ValueError("Animal não encontrado.") # retorna se tiver erro
+            raise ValueError("Animal não encontrado.  Casdastre um animal!") # retorna se tiver erro
 
         return animal# retorna os dados encontrado
+
+    @classmethod
+    def contar_animais(cls, order_by="animal_id"):
+        animal = cls.buscar_tudo(order_by)
+        if not animal:
+            raise ValueError("Animal não encontrato")
+        animais = 0
+        for i in animal:
+            animais = animais + 1
+        return animais
+

@@ -1,0 +1,315 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+SHOW WARNINGS;
+-- -----------------------------------------------------
+-- Schema vetallis_db_2_3
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema vetallis_db_2_3
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `vetallis_db_2_3` DEFAULT CHARACTER SET utf8mb3 ;
+SHOW WARNINGS;
+USE `vetallis_db_2_3` ;
+
+-- -----------------------------------------------------
+-- Table `animal`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `animal` (
+  `animal_id` INT NOT NULL AUTO_INCREMENT,
+  `animal_especie` VARCHAR(45) NOT NULL,
+  `animal_sexo` VARCHAR(45) NOT NULL,
+  `animal_raca` VARCHAR(45) NOT NULL,
+  `animal_identificacao` VARCHAR(45) NOT NULL,
+  `animal_idade` VARCHAR(45) NOT NULL,
+  `animal_peso` VARCHAR(45) NOT NULL,
+  `animal_observacao` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`animal_id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 5
+DEFAULT CHARACTER SET = utf8mb3;
+
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- Table `sensor`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `sensor` (
+  `sensor_id` INT NOT NULL AUTO_INCREMENT,
+  `sensor_nome` VARCHAR(50) NOT NULL,
+  `sensor_descricao` VARCHAR(150) NOT NULL,
+  `sensor_n_serie` VARCHAR(50) NOT NULL,
+  `sensor_modelo` VARCHAR(50) NOT NULL,
+  `sensor_voltagem` VARCHAR(30) NOT NULL,
+  `sensor_tipo_conexao` VARCHAR(50) NOT NULL,
+  `sensor_localizacao` VARCHAR(50) NOT NULL,
+  `sensor_imagem` VARCHAR(255) NULL DEFAULT NULL,
+  `imagem_tipo` VARCHAR(100) NULL DEFAULT NULL,
+  `imagem_blob` LONGBLOB NULL DEFAULT NULL,
+  PRIMARY KEY (`sensor_id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 13
+DEFAULT CHARACTER SET = utf8mb3;
+
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- Table `dados_sensor`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `dados_sensor` (
+  `dados_sensor_id` INT NOT NULL AUTO_INCREMENT,
+  `dados_sensor_temperatura` DECIMAL(5,2) NOT NULL,
+  `dados_sensor_umidade` DECIMAL(5,2) NOT NULL,
+  `dados_sensor_luminosidade` DECIMAL(10,2) NOT NULL,
+  `dados_sensor_data_time` DATETIME NOT NULL,
+  `sensor_sensor_id` INT NOT NULL,
+  PRIMARY KEY (`dados_sensor_id`),
+  INDEX `fk_dados_sensor_sensor1` (`sensor_sensor_id` ASC) VISIBLE,
+  CONSTRAINT `fk_dados_sensor_sensor1`
+    FOREIGN KEY (`sensor_sensor_id`)
+    REFERENCES `sensor` (`sensor_id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
+
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- Table `usuario`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `usuario` (
+  `usuario_id` INT NOT NULL AUTO_INCREMENT,
+  `usuario_senha` VARCHAR(15) NOT NULL,
+  `usuario_email` VARCHAR(255) NOT NULL,
+  `usuario_nome` VARCHAR(100) NOT NULL,
+  `usuario_cpf` VARCHAR(11) NOT NULL,
+  `usuario_cargo` VARCHAR(100) NOT NULL,
+  `usuario_imagem` VARCHAR(255) NULL DEFAULT NULL,
+  `imagem_tipo` VARCHAR(100) NULL DEFAULT NULL,
+  `imagem_blob` LONGBLOB NULL DEFAULT NULL,
+  PRIMARY KEY (`usuario_id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 8
+DEFAULT CHARACTER SET = utf8mb3;
+
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- Table `produto`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `produto` (
+  `produto_id` INT NOT NULL AUTO_INCREMENT,
+  `produto_nome` VARCHAR(100) NOT NULL,
+  `produto_descricao` VARCHAR(100) NULL DEFAULT NULL,
+  `produto_categoria` VARCHAR(20) NOT NULL,
+  `usuario_usuario_id` INT NOT NULL,
+  `produto_imagem` VARCHAR(255) NULL DEFAULT NULL,
+  `imagem_tipo` VARCHAR(100) NULL DEFAULT NULL,
+  `imagem_blob` LONGBLOB NULL DEFAULT NULL,
+  PRIMARY KEY (`produto_id`, `usuario_usuario_id`),
+  INDEX `fk_produto_usuario1` (`usuario_usuario_id` ASC) VISIBLE,
+  CONSTRAINT `fk_produto_usuario1`
+    FOREIGN KEY (`usuario_usuario_id`)
+    REFERENCES `usuario` (`usuario_id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 24
+DEFAULT CHARACTER SET = utf8mb3;
+
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- Table `estoque`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `estoque` (
+  `estoque_id` INT NOT NULL AUTO_INCREMENT,
+  `estoque_quantidade` INT NOT NULL,
+  `estoque_observacao` VARCHAR(45) NULL DEFAULT NULL,
+  `produto_produto_id` INT NOT NULL,
+  `produto_usuario_usuario_id` INT NOT NULL,
+  PRIMARY KEY (`estoque_id`),
+  INDEX `fk_estoque_produto1` (`produto_produto_id` ASC, `produto_usuario_usuario_id` ASC) VISIBLE,
+  CONSTRAINT `fk_estoque_produto1`
+    FOREIGN KEY (`produto_produto_id` , `produto_usuario_usuario_id`)
+    REFERENCES `produto` (`produto_id` , `usuario_usuario_id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 10
+DEFAULT CHARACTER SET = utf8mb3;
+
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- Table `fornecedor`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fornecedor` (
+  `fornecedor_id` INT NOT NULL AUTO_INCREMENT,
+  `fornecedor_nome` VARCHAR(100) NOT NULL,
+  `fornecedor_cnpj` VARCHAR(14) NOT NULL,
+  `fornecedor_endereco` VARCHAR(100) NOT NULL,
+  `fornecedor_pedido_minimo` FLOAT NOT NULL,
+  `fornecedor_tipo_produtos` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`fornecedor_id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 7
+DEFAULT CHARACTER SET = utf8mb3;
+
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- Table `pedido_entrada`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `pedido_entrada` (
+  `pedido_entrada_id` INT NOT NULL AUTO_INCREMENT,
+  `pedido_entrada_nome` VARCHAR(100) NOT NULL,
+  `pedido_entrada_data` VARCHAR(10) NOT NULL,
+  `pedido_entrada_status` VARCHAR(45) NOT NULL,
+  `fornecedor_fornecedor_id` INT NOT NULL,
+  PRIMARY KEY (`pedido_entrada_id`),
+  INDEX `fk_pedido_entrada_fornecedor1` (`fornecedor_fornecedor_id` ASC) VISIBLE,
+  CONSTRAINT `fk_pedido_entrada_fornecedor1`
+    FOREIGN KEY (`fornecedor_fornecedor_id`)
+    REFERENCES `fornecedor` (`fornecedor_id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 16
+DEFAULT CHARACTER SET = utf8mb3;
+
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- Table `item_pedido_entrada`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `item_pedido_entrada` (
+  `item_pedido_entrada_id` INT NOT NULL AUTO_INCREMENT,
+  `item_pedido_entrada_lote` VARCHAR(100) NOT NULL,
+  `item_pedido_entrada_quantidade` INT NOT NULL,
+  `item_pedido_entrada_valor_unitario` FLOAT NOT NULL,
+  `pedido_entrada_pedido_entrada_id` INT NOT NULL,
+  `item_pedido_entrada_nome` VARCHAR(45) NOT NULL,
+  `item_pedido_entrada_validade` VARCHAR(10) NOT NULL,
+  `produto_produto_id` INT NULL DEFAULT NULL,
+  PRIMARY KEY (`item_pedido_entrada_id`),
+  INDEX `fk_entrada_item_pedido_entrada1` (`pedido_entrada_pedido_entrada_id` ASC) VISIBLE,
+  INDEX `fk_item_pedido_entrada_produto1` (`produto_produto_id` ASC) VISIBLE,
+  CONSTRAINT `fk_entrada_item_pedido_entrada1`
+    FOREIGN KEY (`pedido_entrada_pedido_entrada_id`)
+    REFERENCES `pedido_entrada` (`pedido_entrada_id`),
+  CONSTRAINT `fk_item_pedido_entrada_produto1`
+    FOREIGN KEY (`produto_produto_id`)
+    REFERENCES `produto` (`produto_id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 16
+DEFAULT CHARACTER SET = utf8mb3;
+
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- Table `pedido_saida`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `pedido_saida` (
+  `pedido_saida_id` INT NOT NULL AUTO_INCREMENT,
+  `pedido_saida_nome` VARCHAR(100) NOT NULL,
+  `pedido_saida_data` VARCHAR(10) NOT NULL,
+  `pedido_entrada_status` VARCHAR(45) NOT NULL,
+  `animal_animal_id` INT NOT NULL,
+  PRIMARY KEY (`pedido_saida_id`),
+  INDEX `fk_pedido_saida_animal1` (`animal_animal_id` ASC) VISIBLE,
+  CONSTRAINT `fk_pedido_saida_animal1`
+    FOREIGN KEY (`animal_animal_id`)
+    REFERENCES `animal` (`animal_id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 14
+DEFAULT CHARACTER SET = utf8mb3;
+
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- Table `item_pedido_saida`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `item_pedido_saida` (
+  `item_pedido_saida_id` INT NOT NULL AUTO_INCREMENT,
+  `item_pedido_saida_lote` VARCHAR(100) NOT NULL,
+  `item_pedido_saida_quantidade` INT NOT NULL,
+  `pedido_saida_pedido_saida_id` INT NOT NULL,
+  `item_pedido_saida_nome` VARCHAR(45) NOT NULL,
+  `produto_produto_id` INT NULL DEFAULT NULL,
+  PRIMARY KEY (`item_pedido_saida_id`),
+  INDEX `fk_saida_item_pedido_saida1` (`pedido_saida_pedido_saida_id` ASC) VISIBLE,
+  INDEX `fk_item_pedido_saida_produto1` (`produto_produto_id` ASC) VISIBLE,
+  CONSTRAINT `fk_item_pedido_saida_produto1`
+    FOREIGN KEY (`produto_produto_id`)
+    REFERENCES `produto` (`produto_id`),
+  CONSTRAINT `fk_saida_item_pedido_saida1`
+    FOREIGN KEY (`pedido_saida_pedido_saida_id`)
+    REFERENCES `pedido_saida` (`pedido_saida_id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 13
+DEFAULT CHARACTER SET = utf8mb3;
+
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- Table `lista_compra`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `lista_compra` (
+  `lista_compra_id` INT NOT NULL AUTO_INCREMENT,
+  `lista_compra_nome` VARCHAR(100) NOT NULL,
+  `lista_compra_quantidade` INT NOT NULL,
+  `lista_compra_valor` FLOAT NOT NULL,
+  `lista_compra_status` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`lista_compra_id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 14
+DEFAULT CHARACTER SET = utf8mb3;
+
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- Table `notificacao`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `notificacao` (
+  `notificacao_id` INT NOT NULL AUTO_INCREMENT,
+  `notificacao_status` VARCHAR(15) NOT NULL,
+  `notificacao_data` DATE NULL DEFAULT NULL,
+  `notificacao_descricao` VARCHAR(150) NOT NULL,
+  PRIMARY KEY (`notificacao_id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
+
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- Table `recuperar`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `recuperar` (
+  `recuperar_id` INT NOT NULL AUTO_INCREMENT,
+  `recuperar_codigo` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`recuperar_id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+-- ----------------------------------------------------
+-- Table 'push_token' 
+-- ----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `push_token` (
+  `push_token_id` INT NOT NULL AUTO_INCREMENT,
+  `push_token_valor` VARCHAR(255) NOT NULL,
+  `push_token_criado_em` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `usuario_usuario_id` INT NOT NULL,
+  PRIMARY KEY (`push_token_id`),
+  UNIQUE INDEX `uq_push_token_valor` (`push_token_valor` ASC) VISIBLE,
+  INDEX `fk_push_token_usuario1` (`usuario_usuario_id` ASC) VISIBLE,
+  CONSTRAINT `fk_push_token_usuario1`
+    FOREIGN KEY (`usuario_usuario_id`)
+    REFERENCES `usuario` (`usuario_id`)
+    ON DELETE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;

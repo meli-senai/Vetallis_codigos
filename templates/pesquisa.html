@@ -1,42 +1,60 @@
 {% extends "base.html" %}
 
 {% block conteudo %}
-<h3 class="mb-4 text-start" style="color: white; padding:5px; border-bottom:solid 1px #fff;">
+
+
+<!--Tela para resultados da pesquisa-->
+
+<!--Mostra título com o termo pesquisado-->
+<h3 class="mb-4 text-start titulo-h3">
     Resultados para: {{ q }}
 </h3>
 
-<div class="d-flex flex-wrap" style="padding-left: 20px; gap: 20px;">
+
+<div class="d-flex flex-wrap justify-content-start gap-4 mt-3">
+    <!--Verifica se algum item foi encontrado-->
     {% if pesquisa_item %}
     {% for produto in pesquisa_item %}
-    <div style="border-radius: 15px; background: rgba(255,255,255,0.15); padding: 10px; width: 250px;">
+    <!--Mostra em formatos de card os itens encontrados-->
+    <div class="card card-produto mb-3 text-white backgroud-glass border-radius-menor ">
 
-        <label for="imagem_produto" class="upload-box"
-            style="display: block; width: 100%; max-height: 200px; margin-left: 0 !important; align-self: flex-start; z-index: 1000; overflow: hidden; border-radius: 10px;">
-
-            <img src="data:{{ produto.imagem_tipo }};base64,{{ produto.imagem_base64 }}"
-                style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px;">
-
-        </label>
-
-        <div class="d-flex gap-1" style="margin-bottom: 8px;">
-            <label class="form-label" style="color: #fff; margin: 0;">Nome:</label>
-            <label style="color: #fff; margin: 0;">{{ produto.produto_nome }}</label>
+        <div class="row">
+            <label for="imagem_sensor" class="col-4  p-0 upload-box border-radius-menor sensor-cont-img">
+                {% if produto.imagem_base64 %}
+                <img src="data:{{produto.imagem_tipo}};base64,{{produto.imagem_base64}}"
+                    class="border-radius-menor img-sensor">
+                {%else%}
+                <img src="/static/imagens/medicamento.jpg" class="border-radius-menor img-sensor">
+                {%endif%}
+            </label>
+            <div class="col-8 p-0 ">
+                <div class="card-body d-flex gap-1 text-start pb-0">
+                    <h5 class="fs-5 titulo-h3">Nome:</h5>
+                    <h5 class="card-title fs-6 mt-1">{{produto.produto_nome}}</h5>
+                </div>
+                <div class="card-body text-start pb-0 pt-0">
+                    <a href="/informacao_produto/{{produto.produto_id}}" class="bi bi-arrow-bar-right text-white texto-a">
+                        Ver Detalhes
+                    </a>
+                </div>
+                <div class="card-body d-flex  align-items-center gap-3 pt-0">
+                    <a class="btn btn-sm btn-link text-danger fs-5 p-0"
+                        href="{{url_for('excluir_produto', produto_id=produto.produto_id)}}">
+                        <i class="bi bi-trash"></i>
+                    </a>
+                    <a href="/produto/editar/{{produto.produto_id}}" class="bi bi-pencil text-white texto-a">
+                        Editar
+                    </a>
+                </div>
+            </div>
         </div>
 
-        <div class="d-flex justify-content-between align-items-center w-100">
-            <a href="/informacao_produto/{{ produto.produto_id }}" class="bi bi-arrow-bar-right text-white"
-                style="text-decoration: none;">
-                Ver Detalhes
-            </a>
-            <a href="/produto/editar/{{ produto.produto_id }}" class="bi bi-pencil-square text-white"
-                style="text-decoration: none;">
-                Editar
-            </a>
-        </div>
     </div>
+    <!--Caso não foi encontrado mostra essa mensagem-->
     {% endfor %}
     {% else %}
-    <p style="color: white;">Nenhum resultado encontrado para "{{ q }}".</p>
+    <p class="text-white text-center mt-4">Nenhum produto cadastrado</p>
     {% endif %}
 </div>
+
 {% endblock %}
